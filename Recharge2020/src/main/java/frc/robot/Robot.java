@@ -7,9 +7,13 @@
 
 package frc.robot;
 
+import edu.wpi.cscore.UsbCamera;
+import edu.wpi.cscore.VideoSink;
+import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.Constants.OIConstants;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -22,6 +26,14 @@ public class Robot extends TimedRobot {
 
   private RobotContainer m_robotContainer;
 
+  Thread m_visionThread;
+  //VideoSink server;
+  /*
+   imgLock is a variable to synchronize access to the data being simultaneously updated with each image acquisition pass and the code that’s processing the coordinates and steering the robot.
+   */ 
+  //private final Object imgLock = new Object();
+
+
   /**
    * This function is run when the robot is first started up and should be used for any
    * initialization code.
@@ -31,6 +43,25 @@ public class Robot extends TimedRobot {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
+    UsbCamera cam0 = CameraServer.getInstance().startAutomaticCapture("Front Camera", OIConstants.kFrontCamera);
+
+    /*
+    //create seperate thread for vision processing
+    m_visionThread = new Thread(() -> {
+      //setting up USB cameras and sending video to dashboard
+      UsbCamera cam0 = CameraServer.getInstance().startAutomaticCapture("Front Camera", OIConstants.kFrontCamera);
+      UsbCamera cam1 = CameraServer.getInstance().startAutomaticCapture("Front Camera", OIConstants.kFrontCamera);
+      //setting up video sink server
+      //server = CameraServer.getInstance().getServer();
+      //setting the settings for the cameras
+      cam0.setResolution(Constants.kImageWidth, Constants.kImageHeight);
+      cam1.setResolution(Constants.kImageWidth, Constants.kImageHeight);
+
+
+    });
+    //start vision thread
+    m_visionThread.start();
+    */
   }
 
   /**

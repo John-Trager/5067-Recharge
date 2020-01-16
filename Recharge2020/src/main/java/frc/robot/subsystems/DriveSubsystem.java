@@ -8,7 +8,7 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.InvertType;
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -17,32 +17,31 @@ import frc.robot.Constants;
 public class DriveSubsystem extends SubsystemBase {
   /**
    * Creates a new DriveSubsystem.
-   */
-
+   */ 
   //master Talons for drive
-  WPI_TalonSRX frontLeftMotor = new WPI_TalonSRX(Constants.DriveConstants.kFrontLeftMotorPort);
-  WPI_TalonSRX frontRightMotor = new WPI_TalonSRX(Constants.DriveConstants.kFrontRightMotorPort);
+  WPI_VictorSPX frontLeftMotor = new WPI_VictorSPX(Constants.DriveConstants.kFrontLeftMotorPort);
+  WPI_VictorSPX frontRightMotor = new WPI_VictorSPX(Constants.DriveConstants.kFrontRightMotorPort);
   //slave Talons for drive
-  WPI_TalonSRX rearLeftMotor = new WPI_TalonSRX(Constants.DriveConstants.kRearLeftMotorPort);
-  WPI_TalonSRX rearRightMotor = new WPI_TalonSRX(Constants.DriveConstants.kRearRightMotorPort);
+  WPI_VictorSPX rearLeftMotor = new WPI_VictorSPX(Constants.DriveConstants.kRearLeftMotorPort);
+  WPI_VictorSPX rearRightMotor = new WPI_VictorSPX(Constants.DriveConstants.kRearRightMotorPort);
   //differntialDrive for Arcade Drive
   DifferentialDrive m_drive = new DifferentialDrive(frontLeftMotor, frontRightMotor);
 
 
   //constructer method
   public DriveSubsystem() {
-    //setting motors to factory defualt to prevent unecpected behavior
+    //setting motors to factory defualt to prevent unexspected behavior
     frontLeftMotor.configFactoryDefault();
     frontRightMotor.configFactoryDefault();
     rearLeftMotor.configFactoryDefault();
     rearRightMotor.configFactoryDefault();
-    //make talons slave to the masters
+    //make rear motor controllers slave to the masters (front controllers)
     rearLeftMotor.follow(frontLeftMotor);
     rearRightMotor.follow(frontRightMotor);
     //adjust the direction of the motors
-    frontLeftMotor.setInverted(false);
-    frontRightMotor.setInverted(false);
-     
+    frontLeftMotor.setInverted(true);
+    frontRightMotor.setInverted(true);
+    //have slaves be the same inversion as their corosponding masters
     rearLeftMotor.setInverted(InvertType.FollowMaster);
     rearRightMotor.setInverted(InvertType.FollowMaster);
 
