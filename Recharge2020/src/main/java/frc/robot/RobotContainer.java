@@ -10,10 +10,14 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.subsystems.DriveSubsystem;
+
+import frc.robot.commands.TurnToTarget;
+
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+
 import frc.robot.Constants.OIConstants;
 
 import static edu.wpi.first.wpilibj.XboxController.Button;
@@ -62,7 +66,11 @@ public class RobotContainer {
     // Drive at half speed when the right bumper is held
     new JoystickButton(m_driverController, Button.kBumperRight.value)
         .whenPressed(() -> m_robotDrive.setMaxOutput(0.25))
-        .whenReleased(() -> m_robotDrive.setMaxOutput(1));
+        .whenReleased(() -> m_robotDrive.setMaxOutput(0.5));
+
+    // Rotates to Vison Target
+    new JoystickButton(m_driverController, Button.kX.value)
+        .whenPressed(new TurnToTarget(m_robotDrive).withTimeout(5));
   }
 
 
