@@ -70,7 +70,7 @@ public class RobotContainer {
 
     // Rotates to Vison Target
     new JoystickButton(m_driverController, Button.kX.value)
-        .whenPressed(new TurnToTarget(m_robotDrive).withTimeout(5));
+        .whenHeld(new TurnToTarget(m_robotDrive).withTimeout(5));
   }
 
 

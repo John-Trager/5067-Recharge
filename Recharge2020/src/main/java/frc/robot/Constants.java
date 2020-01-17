@@ -22,11 +22,12 @@ public final class Constants {
         public static final int kFrontRightMotorPort = 1;
         public static final int kRearRightMotorPort = 2;
 
-        public static final double kP = 0.08;
+        public static final double kF = 0.0;
+        public static final double kP = 0.2;
         public static final double kI = 0.0;
-        public static final double kD = 0;
+        public static final double kD = 0.0;
 
-        public static final double kTolerance = 0.5;
+        public static final double kTolerance = 0.1;
     }
 
     public static final class OIConstants {

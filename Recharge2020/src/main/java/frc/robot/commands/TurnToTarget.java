@@ -20,7 +20,7 @@ public class TurnToTarget extends PIDCommand {
   /**
    * Turns to robot to vision target
    *
-   * @param m_drive              The drive subsystem to use
+   * @param m_drive  The drive subsystem
    */
   public TurnToTarget(DriveSubsystem m_drive) {
     super(
@@ -33,13 +33,12 @@ public class TurnToTarget extends PIDCommand {
         // This uses the output
         output -> {
           // Use the output here
-          m_drive.arcadeDrive(0, output);
+          m_drive.arcadeDrive(0, output+DriveConstants.kF);
         },
         //requires DriveSubsystem
         m_drive);
     // Use addRequirements() here to declare subsystem dependencies.
     // Configure additional PID options by calling `getController` here.
-
     getController().setTolerance(DriveConstants.kTolerance);
   }
 
