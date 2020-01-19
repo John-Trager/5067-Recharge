@@ -7,7 +7,14 @@
 
 package frc.robot;
 
+import com.kauailabs.navx.frc.AHRS;
+
+import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.XboxController.Button;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
@@ -22,6 +29,11 @@ public class Robot extends TimedRobot {
 
   private RobotContainer m_robotContainer;
 
+  AHRS ahrs;
+
+  boolean tempPrevious = false;
+  boolean toggle = false;
+
   /**
    * This function is run when the robot is first started up and should be used for any
    * initialization code.
@@ -32,6 +44,7 @@ public class Robot extends TimedRobot {
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
 
+    NetworkTableEntry myboolean = Shuffleboard.getTab("LiveWindow").add("PID is ON", false).withWidget("Toggle Button").getEntry();
 
   }
 
@@ -98,12 +111,11 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void teleopPeriodic() {
-    if(Limelight.isTarget()){
-      //test print limelight values
-      System.out.println("tx: " + Limelight.getTx());
-      //System.out.println("ty: " + Limelight.getTy());
-  
+    if (!tempPrevious && m_robotContainer.m_driverController.getXButton()){
+      toggle = !toggle;
     }
+    tempPrevious = m_robotContainer.m_driverController.getXButton();
+    SmartDashboard.putBoolean("XButton", toggle);
   }
 
   @Override
@@ -117,5 +129,11 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void testPeriodic() {
+    if(Limelight.isTarget()){
+      //test print limelight values
+      System.out.println("tx: " + Limelight.getTx());
+    }
+
+    //NetworkTableEntry table = Shuffleboard.getTab("LiveWindow").add("tx", Limelight.getTx()).withWidget(BuiltInWidgets.kGraph).getEntry();
   }
 }

@@ -19,6 +19,7 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 import frc.robot.Constants.OIConstants;
+import frc.robot.Limelight.LightMode;
 
 import static edu.wpi.first.wpilibj.XboxController.Button;
 
@@ -35,7 +36,7 @@ public class RobotContainer {
   //private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
 
   //the drivers and operators controller
-  XboxController m_driverController = new XboxController(OIConstants.kDriverControllerPort);
+  public XboxController m_driverController = new XboxController(OIConstants.kDriverControllerPort);
 
 
 
@@ -64,13 +65,22 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     // Drive at half speed when the right bumper is held
+      
+
     new JoystickButton(m_driverController, Button.kBumperRight.value)
         .whenPressed(() -> m_robotDrive.setMaxOutput(0.25))
         .whenReleased(() -> m_robotDrive.setMaxOutput(0.5));
 
     // Rotates to Vison Target
     new JoystickButton(m_driverController, Button.kX.value)
-        .whenHeld(new TurnToTarget(m_robotDrive).withTimeout(5));
+        .toggleWhenPressed(new TurnToTarget(m_robotDrive, m_driverController));
+
+    //turns limelight leds off
+    new JoystickButton(m_driverController, Button.kB.value)
+      .whenPressed(() -> Limelight.setLedMode(LightMode.eOff));
+
+    new JoystickButton(m_driverController, Button.kA.value)
+      .whenPressed(() -> Limelight.setLedMode(LightMode.eOn));
   }
 
 

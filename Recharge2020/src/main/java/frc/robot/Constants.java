@@ -23,9 +23,13 @@ public final class Constants {
         public static final int kRearRightMotorPort = 2;
 
         public static final double kF = 0.0;
-        public static final double kP = 0.2;
-        public static final double kI = 0.0;
-        public static final double kD = 0.0;
+        public static final double kP = 0.085;
+        public static final double kI = 0.045;
+        public static final double kD = 0.003;
+
+        public static final double kP0 = 0.03;
+        public static final double kI0 = 0.0;
+        public static final double kD0 = 0.0;
 
         public static final double kTolerance = 0.1;
     }
