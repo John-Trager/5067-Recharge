@@ -22,6 +22,9 @@ public final class Constants {
         public static final int kFrontRightMotorPort = 1;
         public static final int kRearRightMotorPort = 2;
 
+        public static final int kTopShooter = 0;
+        public static final int kBottomShooter = 1;
+
         public static final double kF = 0.0;
         public static final double kP = 0.085;
         public static final double kI = 0.045;
@@ -36,6 +39,7 @@ public final class Constants {
 
     public static final class OIConstants {
         public static final int kDriverControllerPort = 1;
+        public static final int kOperatorControllerPort = 0;
         public static final int kFrontCamera = 0;
         public static final int kRearCamera = 1;
 

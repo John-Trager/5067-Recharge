@@ -10,7 +10,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.subsystems.DriveSubsystem;
-
+import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.commands.TurnToTarget;
 
 import edu.wpi.first.wpilibj2.command.Command;
@@ -31,12 +31,14 @@ import static edu.wpi.first.wpilibj.XboxController.Button;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-  private final DriveSubsystem m_robotDrive = new DriveSubsystem();
+  private DriveSubsystem m_robotDrive = new DriveSubsystem();
+  private ShooterSubsystem m_shooter = new ShooterSubsystem();
 
   //private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
 
   //the drivers and operators controller
   public XboxController m_driverController = new XboxController(OIConstants.kDriverControllerPort);
+  public XboxController m_operatorController = new XboxController(OIConstants.kOperatorControllerPort);
 
 
 
@@ -81,6 +83,9 @@ public class RobotContainer {
 
     new JoystickButton(m_driverController, Button.kA.value)
       .whenPressed(() -> Limelight.setLedMode(LightMode.eOn));
+
+    new JoystickButton(m_operatorController, Button.kA.value)
+      .whileHeld(() -> m_shooter.startShooter(m_operatorController.getTriggerAxis(GenericHID.Hand.kRight)));
   }
 
 
