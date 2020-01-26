@@ -12,12 +12,13 @@ import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.commands.TurnToTarget;
+import frc.robot.commands.TurnToAngle;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-
+import edu.wpi.first.wpilibj2.command.button.POVButton;
 import frc.robot.Constants.OIConstants;
 import frc.robot.Limelight.LightMode;
 
@@ -75,17 +76,45 @@ public class RobotContainer {
 
     // Rotates to Vison Target
     new JoystickButton(m_driverController, Button.kX.value)
-        .toggleWhenPressed(new TurnToTarget(m_robotDrive, m_driverController));
+        .toggleWhenPressed(new TurnToTarget(m_robotDrive, m_driverController.getY(GenericHID.Hand.kRight)));
 
     //turns limelight leds off
     new JoystickButton(m_driverController, Button.kB.value)
-      .whenPressed(() -> Limelight.setLedMode(LightMode.eOff));
+     .whenPressed(() -> Limelight.setLedMode(LightMode.eOff));
 
+    //turns limelight leds on
     new JoystickButton(m_driverController, Button.kA.value)
-      .whenPressed(() -> Limelight.setLedMode(LightMode.eOn));
+     .whenPressed(() -> Limelight.setLedMode(LightMode.eOn));
 
+    //turns the shooter on
     new JoystickButton(m_operatorController, Button.kA.value)
-      .whileHeld(() -> m_shooter.startShooter(m_operatorController.getTriggerAxis(GenericHID.Hand.kRight)));
+     .whileHeld(() -> m_shooter.startShooter(m_operatorController.getTriggerAxis(GenericHID.Hand.kRight)));
+
+    //rotates to set angle from D-PAD
+    new POVButton(m_driverController, 0)
+      .whenPressed(new TurnToAngle(m_robotDrive, 0, m_driverController.getY(GenericHID.Hand.kRight)));
+    
+    new POVButton(m_driverController, 45)
+      .whenPressed(new TurnToAngle(m_robotDrive, 45, m_driverController.getY(GenericHID.Hand.kRight)));
+
+      new POVButton(m_driverController, 90)
+      .whenPressed(new TurnToAngle(m_robotDrive, 90, m_driverController.getY(GenericHID.Hand.kRight)));
+
+    new POVButton(m_driverController, 135)
+      .whenPressed(new TurnToAngle(m_robotDrive, 135, m_driverController.getY(GenericHID.Hand.kRight)));
+      
+    new POVButton(m_driverController, 180)
+      .whenPressed(new TurnToAngle(m_robotDrive, 180, m_driverController.getY(GenericHID.Hand.kRight)));
+
+    new POVButton(m_driverController, 225)
+      .whenPressed(new TurnToAngle(m_robotDrive, 225, m_driverController.getY(GenericHID.Hand.kRight)));
+
+    new POVButton(m_driverController, 270)
+      .whenPressed(new TurnToAngle(m_robotDrive, 270, m_driverController.getY(GenericHID.Hand.kRight)));
+
+    new POVButton(m_driverController, 315)
+      .whenPressed(new TurnToAngle(m_robotDrive, 315, m_driverController.getY(GenericHID.Hand.kRight)));    
+
   }
 
 

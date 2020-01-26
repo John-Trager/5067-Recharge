@@ -44,7 +44,7 @@ public class ShooterSubsystem extends SubsystemBase {
     kFF = 0; 
     kMaxOutput = 1; 
     kMinOutput = -1;
-    maxRPM = 5700;
+    maxRPM = 5400;
     mPIDController.setP(kP);
     mPIDController.setI(kI);
     mPIDController.setD(kD);
@@ -80,6 +80,14 @@ public class ShooterSubsystem extends SubsystemBase {
    */
   public double getBottomEncoderVelocity(){
     return bottomEncoder.getVelocity();
+  }
+
+  /**
+   * stops both motors
+   */
+  public void stopShooter(){
+    topShooter.stopMotor();
+    bottomShooter.stopMotor();
   }
 
   @Override

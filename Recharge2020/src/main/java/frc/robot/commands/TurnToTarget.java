@@ -7,8 +7,6 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.GenericHID;
-import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.PIDCommand;
 import frc.robot.Limelight;
@@ -23,8 +21,10 @@ public class TurnToTarget extends PIDCommand {
    * Turns the robot to vision target
    *
    * @param m_drive  The drive subsystem
+   * @param joystick value for driving back/forward
+   * 
    */
-  public TurnToTarget(DriveSubsystem m_drive, XboxController m_driverController ) {
+  public TurnToTarget(DriveSubsystem m_drive, double joystick) {
     super(
         // The controller that the command will use
         new PIDController(DriveConstants.kP, DriveConstants.kI, DriveConstants.kD),
@@ -35,12 +35,11 @@ public class TurnToTarget extends PIDCommand {
         // This uses the output
         output -> {
           // Use the output here
-          m_drive.arcadeDrive(m_driverController.getY(GenericHID.Hand.kRight), output+DriveConstants.kF);
+          m_drive.arcadeDrive(joystick, output+DriveConstants.kF);
         },
         //requires DriveSubsystem
         m_drive);
-    // Use addRequirements() here to declare subsystem dependencies.
-    // Configure additional PID options by calling `getController` here.
+
     //getController().setTolerance(DriveConstants.kTolerance);
     
   }

@@ -17,24 +17,35 @@ package frc.robot;
  */
 public final class Constants {
     public static final class DriveConstants {
+        //drivetrain CAN IDs
         public static final int kFrontLeftMotorPort = 3;
         public static final int kRearLeftMotorPort = 4;
         public static final int kFrontRightMotorPort = 1;
         public static final int kRearRightMotorPort = 2;
-
+        //Shooter CAN IDs
         public static final int kTopShooter = 5;
         public static final int kBottomShooter = 6;
-
+        //climb PWM chanel input
+        public static final int kClimbMotor = 0;
+        public static final boolean kClimberIsReversed = false;
+        //reverse gyro readings
+        public static final boolean kGyroReversed = false;
+        //pid constants for turn to target
         public static final double kF = 0.0;
         public static final double kP = 0.085;
         public static final double kI = 0.045;
         public static final double kD = 0.003;
-
-        public static final double kP0 = 0.03;
-        public static final double kI0 = 0.0;
-        public static final double kD0 = 0.0;
-
         public static final double kTolerance = 0.1;
+
+    }
+
+    public static final class toAngleConstants{
+        //constants for turn to angle
+        public static final double kTurnToleranceDeg = 5.0;
+        public static final double kTurnRateToleranceDegPerS = 10.0;
+        public static final double kP = 0.05;
+        public static final double kI = 0.0;
+        public static final double kD = 0.0;
     }
 
     public static final class PIDtoBall {
@@ -50,8 +61,5 @@ public final class Constants {
         public static final int kRearCamera = 1;
 
     }
-
-    public static final int kImageWidth = 640;
-    public static final int kImageHeight = 480;
 
 }
