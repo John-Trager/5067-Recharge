@@ -69,7 +69,6 @@ public class RobotContainer {
   private void configureButtonBindings() {
     // Drive at half speed when the right bumper is held
       
-
     new JoystickButton(m_driverController, Button.kBumperRight.value)
         .whenPressed(() -> m_robotDrive.setMaxOutput(0.25))
         .whenReleased(() -> m_robotDrive.setMaxOutput(0.5));
@@ -91,10 +90,10 @@ public class RobotContainer {
      .whileHeld(() -> m_shooter.startShooter(m_operatorController.getTriggerAxis(GenericHID.Hand.kRight)));
 
     //rotates to set angle from D-PAD
-    new POVButton(m_driverController, 0)
-      .whenPressed(new TurnToAngle(m_robotDrive, 0, m_driverController.getY(GenericHID.Hand.kRight)));
+    new POVButton(m_driverController, 90)
+      .whenPressed(new TurnToAngle(m_robotDrive, 90, m_driverController.getY(GenericHID.Hand.kRight)));
     
-    new POVButton(m_driverController, 45)
+    /**new POVButton(m_driverController, 45)
       .whenPressed(new TurnToAngle(m_robotDrive, 45, m_driverController.getY(GenericHID.Hand.kRight)));
 
       new POVButton(m_driverController, 90)
@@ -114,7 +113,7 @@ public class RobotContainer {
 
     new POVButton(m_driverController, 315)
       .whenPressed(new TurnToAngle(m_robotDrive, 315, m_driverController.getY(GenericHID.Hand.kRight)));    
-
+    */
   }
 
 

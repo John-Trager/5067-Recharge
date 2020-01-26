@@ -13,8 +13,10 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-
+import frc.robot.subsystems.DriveSubsystem;
 import io.github.pseudoresonance.pixy2api.links.SPILink;
+import edu.wpi.first.wpilibj.SPI;
+
 
 
 /**
@@ -28,9 +30,11 @@ public class Robot extends TimedRobot {
 
   private RobotContainer m_robotContainer;
 
+  DriveSubsystem m_drive;
+
   private static PixyCam pixy = null;
 
-  AHRS ahrs;
+  public AHRS ahrs = new AHRS(SPI.Port.kMXP);
 
   boolean tempPrevious = false;
   boolean toggle = false;
@@ -46,6 +50,8 @@ public class Robot extends TimedRobot {
     m_robotContainer = new RobotContainer();
 
     pixy = new PixyCam(new SPILink());
+
+    ahrs.zeroYaw();
 
   }
 
@@ -117,6 +123,11 @@ public class Robot extends TimedRobot {
     }
     tempPrevious = m_robotContainer.m_driverController.getXButton();
     SmartDashboard.putBoolean("XButton", toggle);
+    try{
+    SmartDashboard.putNumber("gyro", ahrs.getAngle());
+    } catch (Exception e){
+      System.out.println("error at gyro " + e);
+    }
   }
 
   @Override
