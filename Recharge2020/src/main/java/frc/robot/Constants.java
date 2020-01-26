@@ -22,8 +22,8 @@ public final class Constants {
         public static final int kFrontRightMotorPort = 1;
         public static final int kRearRightMotorPort = 2;
 
-        public static final int kTopShooter = 0;
-        public static final int kBottomShooter = 1;
+        public static final int kTopShooter = 5;
+        public static final int kBottomShooter = 6;
 
         public static final double kF = 0.0;
         public static final double kP = 0.085;
@@ -35,6 +35,12 @@ public final class Constants {
         public static final double kD0 = 0.0;
 
         public static final double kTolerance = 0.1;
+    }
+
+    public static final class PIDtoBall {
+        public static final double kP = 0.1;
+        public static final double kI = 0.0;
+        public static final double kD = 0.0;
     }
 
     public static final class OIConstants {

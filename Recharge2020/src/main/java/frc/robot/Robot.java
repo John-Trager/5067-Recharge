@@ -14,6 +14,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
+import io.github.pseudoresonance.pixy2api.links.SPILink;
+
+
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
  * each mode, as described in the TimedRobot documentation. If you change the name of this class or
@@ -24,6 +27,8 @@ public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
 
   private RobotContainer m_robotContainer;
+
+  private static PixyCam pixy = null;
 
   AHRS ahrs;
 
@@ -39,6 +44,8 @@ public class Robot extends TimedRobot {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
+
+    pixy = new PixyCam(new SPILink());
 
   }
 
@@ -123,9 +130,16 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void testPeriodic() {
+    if (pixy.isBlock()){
+      try{
+        //System.out.println(pixy.getPx());
+      } catch(Exception e){
+        System.out.println(e);
+      }
+    }
     if(Limelight.isTarget()){
       //test print limelight values
-      System.out.println("tx: " + Limelight.getTx());
+      //System.out.println("tx: " + Limelight.getTx());
     }
   }
 }
