@@ -13,6 +13,7 @@ import frc.robot.Constants.DriveConstants;
 
 public class ClimberSubsystem extends SubsystemBase {
   private Spark climbMotor = new Spark(DriveConstants.kClimbMotor);
+  private Spark elevatorMotor = new Spark(DriveConstants.kElevator);
   /**
    * Creates a new ClimberSubsystem.
    */
@@ -37,5 +38,18 @@ public class ClimberSubsystem extends SubsystemBase {
    */
   public void startClimb(double joystick){
     climbMotor.set(Math.abs(joystick)*(DriveConstants.kClimberIsReversed ? -1.0 : 1.0));
+  }
+  /**
+   * extends the elevator at 50% power
+   */
+  public void extendElevator(){
+    elevatorMotor.set(Math.abs(0.5)*(DriveConstants.kElevatorIsReversed ? -1.0 : 1.0));
+  }
+  /**
+   * extends the elevator, power based on joystick value
+   * @param joystick 0-1 input % for climb motor
+   */
+  public void extendElevator(double joystick){
+    elevatorMotor.set(Math.abs(joystick)*(DriveConstants.kElevatorIsReversed ? -1.0 : 1.0));
   }
 }

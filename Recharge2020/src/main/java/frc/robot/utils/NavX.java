@@ -1,4 +1,4 @@
-package frc.robot;
+package frc.robot.utils;
 
 //https://www.kauailabs.com/dist/frc/2020/navx_frc.json
 //resolve offline library donwload

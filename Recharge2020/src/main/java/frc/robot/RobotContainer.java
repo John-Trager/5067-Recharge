@@ -11,6 +11,8 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
+import frc.robot.utils.Limelight;
+import frc.robot.utils.Limelight.LightMode;
 import frc.robot.commands.TurnToTarget;
 import frc.robot.commands.TurnToAngle;
 
@@ -20,8 +22,6 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import frc.robot.Constants.OIConstants;
-import frc.robot.Limelight.LightMode;
-
 import static edu.wpi.first.wpilibj.XboxController.Button;
 
 /**
@@ -79,7 +79,7 @@ public class RobotContainer {
 
     //turns limelight leds off
     new JoystickButton(m_driverController, Button.kB.value)
-     .whenPressed(() -> Limelight.setLedMode(LightMode.eOff));
+     .whenPressed(() -> Limelight.setLedMode(frc.robot.utils.Limelight.LightMode.eOff));
 
     //turns limelight leds on
     new JoystickButton(m_driverController, Button.kA.value)

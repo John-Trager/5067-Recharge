@@ -25,9 +25,21 @@ public final class Constants {
         //Shooter CAN IDs
         public static final int kTopShooter = 5;
         public static final int kBottomShooter = 6;
-        //climb PWM chanel input
+        //turret CAN ID
+        public static final int kTurretMotor = 7;
+        // Climb PWM input
         public static final int kClimbMotor = 0;
+        public static final int kElevator = 1;
+        // Indexer PWM input
+        public static final int kIndexRoller = 2;
+        public static final int kMidIndexMotor = 3;
+        public static final int kBackIndexMotor = 4;
+        //ball intake PWM
+        public static final int kIntakeMotor = 5;
+        //reverse motor booleans
         public static final boolean kClimberIsReversed = false;
+        public static final boolean kElevatorIsReversed = false;
+        public static final boolean kIntakeIsReversed = false;
         //reverse gyro readings
         public static final boolean kGyroReversed = false;
         //pid constants for turn to target
@@ -60,6 +72,11 @@ public final class Constants {
         public static final int kFrontCamera = 0;
         public static final int kRearCamera = 1;
 
+    }
+
+    public static final class pdpConstants {
+        public static final int kTopShooterMotor = 1;
+        public static final int kBottomShooterMotor = 2;
     }
 
 }

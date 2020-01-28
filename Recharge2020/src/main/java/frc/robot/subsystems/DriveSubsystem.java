@@ -15,17 +15,16 @@ import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants;
 import frc.robot.Constants.DriveConstants;
 
 public class DriveSubsystem extends SubsystemBase {
 
   //master Talons for drive
-  WPI_VictorSPX frontLeftMotor = new WPI_VictorSPX(Constants.DriveConstants.kFrontLeftMotorPort);
-  WPI_VictorSPX frontRightMotor = new WPI_VictorSPX(Constants.DriveConstants.kFrontRightMotorPort);
+  WPI_VictorSPX frontLeftMotor = new WPI_VictorSPX(DriveConstants.kFrontLeftMotorPort);
+  WPI_VictorSPX frontRightMotor = new WPI_VictorSPX(DriveConstants.kFrontRightMotorPort);
   //slave Talons for drive
-  WPI_VictorSPX rearLeftMotor = new WPI_VictorSPX(Constants.DriveConstants.kRearLeftMotorPort);
-  WPI_VictorSPX rearRightMotor = new WPI_VictorSPX(Constants.DriveConstants.kRearRightMotorPort);
+  WPI_VictorSPX rearLeftMotor = new WPI_VictorSPX(DriveConstants.kRearLeftMotorPort);
+  WPI_VictorSPX rearRightMotor = new WPI_VictorSPX(DriveConstants.kRearRightMotorPort);
   //differntialDrive for Arcade Drive
   DifferentialDrive m_drive = new DifferentialDrive(frontLeftMotor, frontRightMotor);
 
