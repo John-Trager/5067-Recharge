@@ -13,10 +13,9 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import frc.robot.subsystems.DriveSubsystem;
-import frc.robot.utils.Limelight;
 import frc.robot.utils.PixyCam;
 import io.github.pseudoresonance.pixy2api.links.SPILink;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.SPI;
 
 
@@ -31,8 +30,6 @@ public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
 
   private RobotContainer m_robotContainer;
-
-  DriveSubsystem m_drive;
 
   private static PixyCam pixy = null;
 
@@ -145,14 +142,17 @@ public class Robot extends TimedRobot {
   public void testPeriodic() {
     if (pixy.isBlock()){
       try{
-        //System.out.println(pixy.getPx());
+        SmartDashboard.putNumber("Closest Block Xa", pixy.getPxAngle(pixy.getClosestBlock()));
+        SmartDashboard.putNumber("Closest Block Ya", pixy.getPyAngle(pixy.getClosestBlock()));
+        SmartDashboard.putNumber("Number of Balls", pixy.getNumBlocks());
       } catch(Exception e){
-        System.out.println(e);
+        System.err.println(e);
+        DriverStation.reportError("Unable to get pixy comms: " , e.getStackTrace());
       }
+    } else {
+      SmartDashboard.putNumber("Number of Balls", pixy.getNumBlocks());
     }
-    if(Limelight.isTarget()){
-      //test print limelight values
-      //System.out.println("tx: " + Limelight.getTx());
-    }
+
   }
+
 }

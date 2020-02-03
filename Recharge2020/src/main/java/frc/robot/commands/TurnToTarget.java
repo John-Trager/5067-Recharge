@@ -24,7 +24,7 @@ public class TurnToTarget extends PIDCommand {
    * @param joystick value for driving back/forward
    * 
    */
-  public TurnToTarget(DriveSubsystem m_drive, double joystick) {
+  public TurnToTarget(DriveSubsystem m_drive, double rightJoystick) {
     super(
         // The controller that the command will use
         new PIDController(DriveConstants.kP, DriveConstants.kI, DriveConstants.kD),
@@ -35,7 +35,7 @@ public class TurnToTarget extends PIDCommand {
         // This uses the output
         output -> {
           // Use the output here
-          m_drive.arcadeDrive(joystick, output+DriveConstants.kF);
+          m_drive.arcadeDrive(rightJoystick + (Limelight.getTy()*0.025), output+DriveConstants.kF);
         },
         //requires DriveSubsystem
         m_drive);
@@ -47,6 +47,6 @@ public class TurnToTarget extends PIDCommand {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;//getController().atSetpoint();
+    return false; //getController().atSetpoint();
   }
 }
