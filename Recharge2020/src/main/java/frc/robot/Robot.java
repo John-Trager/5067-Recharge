@@ -13,9 +13,6 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import frc.robot.utils.PixyCam;
-import io.github.pseudoresonance.pixy2api.links.SPILink;
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.SPI;
 
 
@@ -31,12 +28,11 @@ public class Robot extends TimedRobot {
 
   private RobotContainer m_robotContainer;
 
-  private static PixyCam pixy = null;
-
   public AHRS ahrs = new AHRS(SPI.Port.kMXP);
 
   boolean tempPrevious = false;
   boolean toggle = false;
+
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -47,8 +43,6 @@ public class Robot extends TimedRobot {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
-
-    pixy = new PixyCam(new SPILink());
 
     ahrs.zeroYaw();
 
@@ -140,19 +134,6 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void testPeriodic() {
-    if (pixy.isBlock()){
-      try{
-        SmartDashboard.putNumber("Closest Block Xa", pixy.getPxAngle(pixy.getClosestBlock()));
-        SmartDashboard.putNumber("Closest Block Ya", pixy.getPyAngle(pixy.getClosestBlock()));
-        SmartDashboard.putNumber("Number of Balls", pixy.getNumBlocks());
-      } catch(Exception e){
-        System.err.println(e);
-        DriverStation.reportError("Unable to get pixy comms: " , e.getStackTrace());
-      }
-    } else {
-      SmartDashboard.putNumber("Number of Balls", pixy.getNumBlocks());
-    }
-
+    
   }
-
 }

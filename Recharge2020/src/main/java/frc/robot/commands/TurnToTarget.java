@@ -21,7 +21,7 @@ public class TurnToTarget extends PIDCommand {
    * Turns the robot to vision target
    *
    * @param m_drive  The drive subsystem
-   * @param joystick value for driving back/forward
+   * @param rightJoystick value for driving back/forward
    * 
    */
   public TurnToTarget(DriveSubsystem m_drive, double rightJoystick) {

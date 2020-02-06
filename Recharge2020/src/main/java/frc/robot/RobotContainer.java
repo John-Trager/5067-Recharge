@@ -27,7 +27,7 @@ import frc.robot.utils.Limelight;
 import frc.robot.utils.Limelight.LightMode;
 import frc.robot.commands.TurnToTarget;
 import frc.robot.commands.TurnToAngle;
-
+import frc.robot.commands.TurnToBall;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
@@ -90,10 +90,11 @@ public class RobotContainer {
    * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    // Drive at half speed when the right bumper is held
+    
+    //starts the climber
     new JoystickButton(m_operatorController, Button.kB.value)
         .whileHeld(() -> m_Climb.startClimb());
-      
+    // Drive at half speed when the right bumper is held
     new JoystickButton(m_driverController, Button.kBumperRight.value)
         .whenPressed(() -> m_robotDrive.setMaxOutput(0.25))
         .whenReleased(() -> m_robotDrive.setMaxOutput(0.5));
@@ -114,6 +115,9 @@ public class RobotContainer {
     new JoystickButton(m_operatorController, Button.kA.value)
      .whileHeld(() -> m_shooter.startShooter(m_operatorController.getTriggerAxis(GenericHID.Hand.kRight)));
 
+    //turn to ball if ball is in view
+    new JoystickButton(m_driverController, Button.kY.value)
+      .toggleWhenPressed(new TurnToBall(m_robotDrive, m_driverController.getY(GenericHID.Hand.kRight)));
 
     //rotates to set angle from D-PAD
     new POVButton(m_driverController, 90)

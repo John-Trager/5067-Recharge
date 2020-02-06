@@ -17,19 +17,23 @@ public class PixyCam {
     private final Pixy2 pixy;
     private Block mBiggestBlock = null;
     private Block mClosestBlock = null;
+    private double i;
+    //holds list of blocks
+    ArrayList<Block> blocks;
 
     //constants
     private static final double kHorizontalFOV = 60.0;
     private static final double kVerticalFOV = 40.0;
-    private static final int kFocalLength = 3;
+    //private static final int kFocalLength = 3;
     private static final double kFrameWidthInPixels = 315.0;
     private static final double kFrameHeightInPixels = 207.0;
-    
+    //constant for distance to pixel ratio
+    private final double kDistanceToPixels = 0.02;
 
     public PixyCam(Link link) {
 		pixy = Pixy2.createInstance(link);
         pixy.init();
-        pixy.setLamp((byte) 1, (byte) 1);
+        pixy.setLamp((byte) 0, (byte) 0);
         //skyblue color
         pixy.setLED(135,206,235);
 	}
@@ -110,11 +114,27 @@ public class PixyCam {
 
     /**
      * 
+     * @param block block to estimate distance to
+     * @return the distance in meters to the object
+     */
+    public double distanceToTarget(Block block){
+        //TODO: calibrate kDistanceToPixels
+        return block.getWidth() * kDistanceToPixels;
+    }
+
+    /**
+     * 
      * @param block input block
      * @return the angle of the target on X axis (in degrees) from the center of the frame
      */
     public double getPxAngle(Block block){
-        return block.getX() * (kHorizontalFOV/kFrameWidthInPixels)-(kHorizontalFOV/2);
+        if (block != null){
+            i = block.getX() * (kHorizontalFOV/kFrameWidthInPixels)-(kHorizontalFOV/2);
+            System.out.println(i);
+            return i;
+        } else {
+            return 0;
+        }
     }
 
      /**
@@ -123,23 +143,29 @@ public class PixyCam {
      * @return the angle of the target on Y axis (in degrees) from the center of the frame 
      */
     public double getPyAngle(Block block){
-        return (block.getX() * (kVerticalFOV/kFrameHeightInPixels)-(kVerticalFOV/2))*-1;
+        if (block != null){
+            return (block.getX() * (kVerticalFOV/kFrameHeightInPixels)-(kVerticalFOV/2))*-1;
+        } else {
+            return 0;
+        }
     }
-
+    /**
+     * @return the number of blocks currently detected
+     */
     public int getNumBlocks(){
         return pixy.getCCC().getBlocks(false, Pixy2CCC.CCC_SIG1, 6);
     }
 
     /**
      * 
-     * @return returns if block(s) are in frame and detected
+     * @return returns if they're block(s) in frame and detected
      */
     public boolean isBlock(){
         int blockCount = pixy.getCCC().getBlocks(false, Pixy2CCC.CCC_SIG1, 6);
-        if (blockCount > 0){
-            return true;
-        } else {
+        if (blockCount <= 0){
             return false;
+        } else {
+            return true;
         }
     }
 
