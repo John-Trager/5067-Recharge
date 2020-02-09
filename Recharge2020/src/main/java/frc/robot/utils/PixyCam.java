@@ -2,6 +2,7 @@ package frc.robot.utils;
 
 import java.util.ArrayList;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import io.github.pseudoresonance.pixy2api.Pixy2;
 import io.github.pseudoresonance.pixy2api.Pixy2CCC;
 import io.github.pseudoresonance.pixy2api.Pixy2CCC.Block;
@@ -93,10 +94,10 @@ public class PixyCam {
         // Gets the number of "blocks", identified targets, that match signature 1 on the Pixy2,
         // does not wait for new data if none is available,
 		// and limits the number of returned blocks to 6, for a slight increase in efficiency
-        int blockCount = pixy.getCCC().getBlocks(false, Pixy2CCC.CCC_SIG1, 6);
-        System.out.println("Found " + blockCount + " blocks!"); // Reports number of blocks found
+        int blockCount = pixy.getCCC().getBlocks(true, Pixy2CCC.CCC_SIG1, 6);
+        //System.out.println("Found " + blockCount + " blocks!"); // Reports number of blocks found
         if (blockCount <= 0) {
-            System.err.println("No block count");
+            //System.err.println("No block count");
             mClosestBlock =  null; // If blocks were not found, stop processing
             return mClosestBlock;
         }
@@ -118,7 +119,11 @@ public class PixyCam {
      * @return the distance in meters to the object
      */
     public double distanceToTarget(Block block){
-        //TODO: calibrate kDistanceToPixels
+        /**
+         * TODO: calibrate kDistanceToPixels
+         * Use QuadRegression and 7-10 sample points to get equation
+         * 
+         */
         return block.getWidth() * kDistanceToPixels;
     }
 
@@ -129,7 +134,9 @@ public class PixyCam {
      */
     public double getPxAngle(Block block){
         if (block != null){
-            i = block.getX() * (kHorizontalFOV/kFrameWidthInPixels)-(kHorizontalFOV/2);
+            i = (double)block.getX() * (kHorizontalFOV/kFrameWidthInPixels)-(kHorizontalFOV/2);
+            SmartDashboard.putNumber("Ball Error", i);
+            SmartDashboard.putNumber("X pixels", block.getX());
             System.out.println(i);
             return i;
         } else {
@@ -166,6 +173,14 @@ public class PixyCam {
             return false;
         } else {
             return true;
+        }
+    }
+
+    public int getX (Block block){
+        if (block != null){
+            return block.getX();
+        } else {
+            return 0;
         }
     }
 

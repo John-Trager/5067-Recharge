@@ -9,6 +9,7 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.controller.RamseteController;
 import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
@@ -93,8 +94,12 @@ public class RobotContainer {
     
     //starts the climber
     new JoystickButton(m_operatorController, Button.kB.value)
-        .whileHeld(() -> m_Climb.startClimb());
-    // Drive at half speed when the right bumper is held
+        .whileHeld(() -> m_Climb.startClimb(m_operatorController.getTriggerAxis(Hand.kRight)));
+    
+    new JoystickButton(m_operatorController, Button.kB.value)
+        .whileHeld(() -> m_Climb.extendElevator(m_operatorController.getTriggerAxis(Hand.kLeft)));
+    
+        // Drive at half speed when the right bumper is held
     new JoystickButton(m_driverController, Button.kBumperRight.value)
         .whenPressed(() -> m_robotDrive.setMaxOutput(0.25))
         .whenReleased(() -> m_robotDrive.setMaxOutput(0.5));
@@ -171,8 +176,8 @@ public class RobotContainer {
             .setKinematics(AutoConstants.kDriveKinematics)
             // Apply the voltage constraint
             .addConstraint(autoVoltageConstraint);
-
-    String trajectoryJSON = "path/RightToCeneterShoot.wpilib.json";
+            
+    String trajectoryJSON = "path1.wpilib.json";
     Trajectory trajectory = null;
     try {
       Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(trajectoryJSON);

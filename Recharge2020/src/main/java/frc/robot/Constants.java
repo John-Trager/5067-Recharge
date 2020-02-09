@@ -64,8 +64,8 @@ public final class Constants {
         public static final double kTurnToleranceDeg = 10.0;
         public static final double kTurnRateToleranceDegPerS = 10.0;
         public static final double kP = 0.002;
-        public static final double kI = 0.0005;
-        public static final double kD = 0.0001;
+        public static final double kI = 0.0;
+        public static final double kD = 0.0;
     }
 
     public static final class PIDtoBall {
@@ -94,7 +94,7 @@ public final class Constants {
 
     // Example value only - as above, this must be tuned for your drive!
     //TODO: where does kPDriveVel come from in the data?
-        public static final double kPDriveVel = 10.1;
+        public static final double kPDriveVel = 5.5;
 
         //distance between wheels in meters
         public static final double kTrackwidthMeters = 0.73914;
@@ -102,8 +102,8 @@ public final class Constants {
         public static final DifferentialDriveKinematics kDriveKinematics =
             new DifferentialDriveKinematics(kTrackwidthMeters);
 
-        public static final double kMaxSpeedMetersPerSecond = 1.5;
-        public static final double kMaxAccelerationMetersPerSecondSquared = 1;
+        public static final double kMaxSpeedMetersPerSecond = 0.5;
+        public static final double kMaxAccelerationMetersPerSecondSquared = 0.25;
         // Reasonable baseline values for a RAMSETE follower in units of meters and seconds
         public static final double kRamseteB = 2;
         public static final double kRamseteZeta = 0.7;

@@ -75,10 +75,10 @@ public class DriveSubsystem extends SubsystemBase {
     frontLeftMotor.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
     frontRightMotor.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
     //sets motors to neutral
-    frontLeftMotor.setNeutralMode(NeutralMode.Coast);
-    frontRightMotor.setNeutralMode(NeutralMode.Coast);
-    rearLeftMotor.setNeutralMode(NeutralMode.Coast);
-    rearRightMotor.setNeutralMode(NeutralMode.Coast);
+    frontLeftMotor.setNeutralMode(NeutralMode.Brake);
+    frontRightMotor.setNeutralMode(NeutralMode.Brake);
+    rearLeftMotor.setNeutralMode(NeutralMode.Brake);
+    rearRightMotor.setNeutralMode(NeutralMode.Brake);
     
     
     //ramps up motors during Open Loop
