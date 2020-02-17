@@ -29,11 +29,13 @@ public final class Constants {
         //Shooter CAN IDs
         public static final int kTopShooter = 5;
         public static final int kBottomShooter = 6;
+        //Climb Elevator CAN ID
+        public static final int kElevatorCAN = 7;
         //turret CAN ID
-        public static final int kTurretMotor = 7;
+        public static final int kTurretMotor = 8;
         // Climb PWM input
         public static final int kClimbMotor = 0;
-        public static final int kElevator = 1;
+        public static final int kElevatorPWM = 1;
         // Indexer PWM input
         public static final int kIndexRoller = 2;
         public static final int kMidIndexMotor = 3;
@@ -57,6 +59,9 @@ public final class Constants {
         public static final double driveRatio = 8.45;
         public static final boolean rightEncoderisReversed = false;
         public static final boolean leftEncoderisReversed = true;
+
+        //target position for elevator
+        public static final double kSetPositionClimb = 100;
     }
 
     public static final class toAngleConstants{
@@ -92,8 +97,8 @@ public final class Constants {
         public static final double kvVoltSecondsPerMeter = 1.95;
         public static final double kaVoltSecondsSquaredPerMeter = 0.249;
 
-    // Example value only - as above, this must be tuned for your drive!
-    //TODO: where does kPDriveVel come from in the data?
+        // Example value only - as above, this must be tuned for your drive!
+        //TODO: where does kPDriveVel come from in the data?
         public static final double kPDriveVel = 5.5;
 
         //distance between wheels in meters

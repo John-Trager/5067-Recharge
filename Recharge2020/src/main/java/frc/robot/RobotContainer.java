@@ -92,14 +92,17 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     
-    //starts the climber
+    //starts the climber winch
     new JoystickButton(m_operatorController, Button.kB.value)
-        .whileHeld(() -> m_Climb.startClimb(m_operatorController.getTriggerAxis(Hand.kRight)));
-    
+        .whileHeld(() -> m_Climb.startClimb(m_operatorController.getTriggerAxis(Hand.kLeft)));
+    //extends the elevator 
     new JoystickButton(m_operatorController, Button.kB.value)
-        .whileHeld(() -> m_Climb.extendElevator(m_operatorController.getTriggerAxis(Hand.kLeft)));
-    
-        // Drive at half speed when the right bumper is held
+        .whileHeld(() -> m_Climb.extendElevatorCAN(m_operatorController.getTriggerAxis(Hand.kRight)));
+    //retracts the elevator
+    //new JoystickButton(m_operatorController, Button.kA.value)
+      //  .whileHeld(() -> m_Climb.retractElevator(m_operatorController.getTriggerAxis(Hand.kRight)));
+        
+    // Drive at half speed when the right bumper is held
     new JoystickButton(m_driverController, Button.kBumperRight.value)
         .whenPressed(() -> m_robotDrive.setMaxOutput(0.25))
         .whenReleased(() -> m_robotDrive.setMaxOutput(0.5));
@@ -117,7 +120,7 @@ public class RobotContainer {
      .whenPressed(() -> Limelight.setLedMode(LightMode.eOn));
 
     //turns the shooter on
-    new JoystickButton(m_operatorController, Button.kA.value)
+    new JoystickButton(m_operatorController, Button.kY.value)
      .whileHeld(() -> m_shooter.startShooter(m_operatorController.getTriggerAxis(GenericHID.Hand.kRight)));
 
     //turn to ball if ball is in view
@@ -176,7 +179,7 @@ public class RobotContainer {
             .setKinematics(AutoConstants.kDriveKinematics)
             // Apply the voltage constraint
             .addConstraint(autoVoltageConstraint);
-            
+
     String trajectoryJSON = "path1.wpilib.json";
     Trajectory trajectory = null;
     try {

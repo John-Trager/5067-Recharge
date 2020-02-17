@@ -7,11 +7,15 @@
 
 package frc.robot.subsystems;
 
+import java.util.ArrayList;
+
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.InvertType;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.motorcontrol.can.TalonFXConfiguration;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
+import com.ctre.phoenix.music.Orchestra;
 import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.SPI;
@@ -42,8 +46,18 @@ public class DriveSubsystem extends SubsystemBase {
   // Odometry class for tracking robot pose
   private DifferentialDriveOdometry m_odometry;
 
-  //object for current limiting settings
-  //StatorCurrentLimitConfiguration limit = new StatorCurrentLimitConfiguration();
+  //for playing rad music
+  //Orchestra _orchestra;
+  /* Talon FXs to play music through.  
+    More complex music MIDIs will contain several tracks, requiring multiple instruments.  */
+  //TalonFX [] _fxes = {frontLeftMotor, frontRightMotor, rearLeftMotor, rearRightMotor};
+  /* An array of songs that are available to be played, can you guess the song/artists? */
+  //String[] _songs = new String[] {};
+
+  /* track which song is selected for play */
+  //int _songSelection = 0;
+   /* overlapped actions */
+   //int _timeToPlayLoops = 0;
 
   /** Config Objects for motor controllers */
 	TalonFXConfiguration _leftConfig = new TalonFXConfiguration();
@@ -53,6 +67,18 @@ public class DriveSubsystem extends SubsystemBase {
   * Creates a new DriveSubsystem.
   */ 
   public DriveSubsystem() {
+
+    /* A list of TalonFX's that are to be used as instruments */
+    //ArrayList<TalonFX> _instruments = new ArrayList<TalonFX>();
+    /* Initialize the TalonFX's to be used */
+    //for (int i = 0; i < _fxes.length; ++i) {
+    //  _instruments.add(_fxes[i]);
+   // }
+    /* Create the orchestra with the TalonFX instruments */
+    //_orchestra = new Orchestra(_instruments);
+    /* load whatever file is selected */
+    //LoadMusicSelection(0);
+
     //set current limiting function
 
     /*
@@ -114,6 +140,30 @@ public class DriveSubsystem extends SubsystemBase {
     //reset the encoders
     resetEncoders();
   }
+
+  /*
+  void LoadMusicSelection(int offset){
+        // increment song selection 
+        _songSelection += offset;
+        /* wrap song index in case it exceeds boundary 
+        if (_songSelection >= _songs.length) {
+            _songSelection = 0;
+        }
+        if (_songSelection < 0) {
+            _songSelection = _songs.length - 1;
+        }
+        /* load the chirp file 
+        _orchestra.loadMusic(_songs[_songSelection]); 
+
+        /* print to console 
+        System.out.println("Song selected is: " + _songs[_songSelection] + ".  Press left/right on d-pad to change.");
+        
+        /* schedule a play request, after a delay.  
+            This gives the Orchestra service time to parse chirp file.
+            If play() is called immedietely after, you may get an invalid action error code. 
+        _timeToPlayLoops = 10;
+  } */
+
 
   @Override
   public void periodic() {

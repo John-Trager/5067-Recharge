@@ -14,10 +14,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.utils.PixyCam;
-import io.github.pseudoresonance.pixy2api.Pixy2CCC;
 import io.github.pseudoresonance.pixy2api.links.SPILink;
 import edu.wpi.first.wpilibj.SPI;
-
 
 
 /**
@@ -33,7 +31,7 @@ public class Robot extends TimedRobot {
 
   public AHRS ahrs = new AHRS(SPI.Port.kMXP);
 
-  public static PixyCam pixy = new PixyCam(new SPILink());
+  public static PixyCam pixy = new PixyCam(new SPILink()); 
 
   boolean tempPrevious = false;
   boolean toggle = false;
