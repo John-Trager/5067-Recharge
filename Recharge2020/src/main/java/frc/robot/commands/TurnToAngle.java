@@ -46,8 +46,7 @@ public class TurnToAngle extends PIDCommand {
     getController().enableContinuousInput(-180, 180);
     // Set the controller tolerance - the delta tolerance ensures the robot is stationary at the
     // setpoint before it is considered as having reached the reference
-    getController()
-        .setTolerance(toAngleConstants.kTurnToleranceDeg, toAngleConstants.kTurnRateToleranceDegPerS);
+    getController().setTolerance(toAngleConstants.kTurnToleranceDeg, toAngleConstants.kTurnRateToleranceDegPerS);
   }
 
   // Returns true when the command should end.

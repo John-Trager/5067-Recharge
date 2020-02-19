@@ -16,11 +16,10 @@ import com.revrobotics.ControlType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.DriveConstants;
+import frc.robot.Constants.pdpConstants;
+import frc.robot.utils.PDP;
 
 public class ShooterSubsystem extends SubsystemBase {
-  /**
-   * Creates a new ShooterSubsystem.
-   */
   private CANSparkMax topShooter = new CANSparkMax(DriveConstants.kTopShooter, CANSparkMaxLowLevel.MotorType.kBrushless);
   private CANSparkMax bottomShooter = new CANSparkMax(DriveConstants.kBottomShooter, CANSparkMaxLowLevel.MotorType.kBrushless);
   
@@ -30,7 +29,9 @@ public class ShooterSubsystem extends SubsystemBase {
   private CANPIDController mPIDController;
   public double kP, kI, kD, kIz, kFF, kMaxOutput, kMinOutput, maxRPM;
 
-
+  /**
+   * Creates a new ShooterSubsystem.
+   */
   public ShooterSubsystem() {
     topShooter.setInverted(true);
     bottomShooter.follow(topShooter, true);
@@ -88,6 +89,32 @@ public class ShooterSubsystem extends SubsystemBase {
   public void stopShooter(){
     topShooter.stopMotor();
     bottomShooter.stopMotor();
+  }
+
+  /**
+   * 
+   * @return top motor current 
+   */
+  public double getTopMotorCurrent(){
+    try {
+      return PDP.getCurrent(pdpConstants.kTopShooterMotor);
+    } catch (Exception e) {
+      System.out.println("Error returning motor current" + e);
+    } 
+    return 0;
+  }
+
+  /**
+   * 
+   * @return bottom motor current 
+   */
+  public double getBottomMotorCurrent(){
+    try {
+      return PDP.getCurrent(pdpConstants.kBottomShooterMotor);
+    } catch (Exception e) {
+      System.out.println("Error returning motor current" + e);
+    } 
+    return 0;
   }
 
   @Override

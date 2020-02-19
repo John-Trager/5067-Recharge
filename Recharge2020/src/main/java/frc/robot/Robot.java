@@ -13,10 +13,9 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.utils.PixyCam;
 import io.github.pseudoresonance.pixy2api.links.SPILink;
 import edu.wpi.first.wpilibj.SPI;
-
 
 
 /**
@@ -30,14 +29,13 @@ public class Robot extends TimedRobot {
 
   private RobotContainer m_robotContainer;
 
-  DriveSubsystem m_drive;
-
-  private static PixyCam pixy = null;
-
   public AHRS ahrs = new AHRS(SPI.Port.kMXP);
+
+  public static PixyCam pixy = new PixyCam(new SPILink()); 
 
   boolean tempPrevious = false;
   boolean toggle = false;
+
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -48,8 +46,6 @@ public class Robot extends TimedRobot {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
-
-    pixy = new PixyCam(new SPILink());
 
     ahrs.zeroYaw();
 
@@ -124,9 +120,9 @@ public class Robot extends TimedRobot {
     tempPrevious = m_robotContainer.m_driverController.getXButton();
     SmartDashboard.putBoolean("XButton", toggle);
     try{
-    SmartDashboard.putNumber("gyro", ahrs.getAngle());
+      SmartDashboard.putNumber("gyro", ahrs.getAngle());
     } catch (Exception e){
-      System.out.println("error at gyro " + e);
+      System.err.println("error at gyro " + e.getStackTrace());
     }
   }
 
@@ -141,16 +137,8 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void testPeriodic() {
-    if (pixy.isBlock()){
-      try{
-        //System.out.println(pixy.getPx());
-      } catch(Exception e){
-        System.out.println(e);
-      }
-    }
-    if(Limelight.isTarget()){
-      //test print limelight values
-      //System.out.println("tx: " + Limelight.getTx());
-    }
+
+    SmartDashboard.putNumber("Balls", pixy.getX(pixy.getClosestBlock()));
+    
   }
 }
