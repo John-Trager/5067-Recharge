@@ -112,7 +112,23 @@ public final class Constants {
         // Reasonable baseline values for a RAMSETE follower in units of meters and seconds
         public static final double kRamseteB = 2;
         public static final double kRamseteZeta = 0.7;
- 
     }
+
+    public static final class swagGuitar {
+        //frets colored-buttons
+        public static final int greenButton = 1;
+        public static final int redButton = 1;
+        public static final int yellowButton = 1;
+        public static final int blueButton = 1;
+        public static final int orangeButton = 1;
+        //bar that you can pull down
+        public static final int swagBar = 1;
+        //buttom plus buttons
+        public static final int plusButton = 1;
+        public static final int minusButton = 1;
+        //strummer is 0 and 180 degrees d-pad
+        public static final int strumUp = 0;
+        public static final int strumDown = 180;
+    }    
 
 }
