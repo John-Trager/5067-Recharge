@@ -137,8 +137,6 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void testPeriodic() {
-
-    SmartDashboard.putNumber("Balls", pixy.getX(pixy.getClosestBlock()));
     
   }
 }

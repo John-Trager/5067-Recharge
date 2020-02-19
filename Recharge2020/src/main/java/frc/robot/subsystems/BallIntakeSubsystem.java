@@ -15,8 +15,8 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.DriveConstants;
 
 public class BallIntakeSubsystem extends SubsystemBase {
-  private Spark intakeMotor = new Spark(DriveConstants.kIntakeMotor);
   
+  private Spark intakeMotor = new Spark(DriveConstants.kIntakeMotor);
   
   private DoubleSolenoid leftPneumatic = new DoubleSolenoid(0, 1);
   private DoubleSolenoid rightPneumatic = new DoubleSolenoid(2, 3);
