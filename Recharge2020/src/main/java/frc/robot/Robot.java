@@ -7,10 +7,11 @@
 
 package frc.robot;
 
-
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.subsystems.DriveSubsystem;
 
 
 /**
@@ -22,7 +23,14 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
 
+  private DriveSubsystem m_drive = new DriveSubsystem();
+
   private RobotContainer m_robotContainer;
+
+  //timer for timed drivinf
+  private static Timer timer = new Timer();
+
+  private boolean timerStarted = false;
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -33,6 +41,8 @@ public class Robot extends TimedRobot {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
+
+    timer.reset();
 
 
   }
@@ -75,6 +85,9 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.schedule();
     }
+
+    m_drive.arcadeDrive(0, 0);
+
   }
 
   /**
