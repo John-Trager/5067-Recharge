@@ -22,10 +22,10 @@ import edu.wpi.first.wpilibj.kinematics.DifferentialDriveKinematics;
 public final class Constants {
     public static final class DriveConstants {
         //drivetrain CAN IDs
-        public static final int kFrontLeftMotorPort = 3;
-        public static final int kRearLeftMotorPort = 4;
-        public static final int kFrontRightMotorPort = 1;
-        public static final int kRearRightMotorPort = 2;
+        public static final int kFrontLeftMotorPort = 4;
+        public static final int kRearLeftMotorPort = 3;
+        public static final int kFrontRightMotorPort = 2;
+        public static final int kRearRightMotorPort = 1;
         //Shooter CAN IDs
         public static final int kTopShooter = 5;
         public static final int kBottomShooter = 6;
@@ -80,8 +80,8 @@ public final class Constants {
     }
 
     public static final class OIConstants {
-        public static final int kDriverControllerPort = 1;
-        public static final int kOperatorControllerPort = 0;
+        public static final int kDriverControllerPort = 0;
+        public static final int kOperatorControllerPort = 1;
         public static final int kFrontCamera = 0;
         public static final int kRearCamera = 1;
 
