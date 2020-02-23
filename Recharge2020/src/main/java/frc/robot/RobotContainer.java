@@ -8,6 +8,7 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -16,6 +17,7 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Constants.OIConstants;
 import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.SwagBallDelivererSubsystem;
 
 import static edu.wpi.first.wpilibj.XboxController.Button;
 
@@ -30,10 +32,16 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private DriveSubsystem m_robotDrive = new DriveSubsystem();
 
+  private SwagBallDelivererSubsystem m_swagBall = new SwagBallDelivererSubsystem();
+
   //private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
 
   //the drivers and operators controller
   public XboxController m_driverController = new XboxController(OIConstants.kDriverControllerPort);
+
+  public XboxController m_operator = new XboxController(1);
+
+  
 
 
   /**
@@ -61,6 +69,10 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
 
+    new JoystickButton(m_operator, Button.kX.value)
+      .whileHeld(() -> m_swagBall.run(m_operator.getY(Hand.kLeft)));
+
+    
 
   }
 

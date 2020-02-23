@@ -9,6 +9,7 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.subsystems.DriveSubsystem;
@@ -32,6 +33,8 @@ public class Robot extends TimedRobot {
 
   private boolean timerStarted = false;
 
+  double fwd1, rot1, time1, time2, fwd2, rot2;
+
   /**
    * This function is run when the robot is first started up and should be used for any
    * initialization code.
@@ -41,6 +44,21 @@ public class Robot extends TimedRobot {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
+
+    fwd1 = 0.2;
+    rot1 = 0;
+    fwd2 = 0;
+    rot2 = 0.2;
+    time1 = 6;
+    time2 = 10;
+
+    SmartDashboard.putNumber("fwd1", fwd1);
+    SmartDashboard.putNumber("fwd2", fwd2);
+    SmartDashboard.putNumber("rot1", rot1);
+    SmartDashboard.putNumber("rot2", rot2);
+    SmartDashboard.putNumber("time1", time1);
+    SmartDashboard.putNumber("time2", time2);
+
 
     timer.reset();
 
@@ -72,6 +90,23 @@ public class Robot extends TimedRobot {
 
   @Override
   public void disabledPeriodic() {
+
+    double dashFwd1 = SmartDashboard.getNumber("fwd1", 0);
+    double dashFwd2 = SmartDashboard.getNumber("fwd2", 0);
+    double dashRot1 = SmartDashboard.getNumber("rot1", 0);
+    double dashRot2 = SmartDashboard.getNumber("rot2", 0);
+    double dashTime1 = SmartDashboard.getNumber("time1", 0);
+    double dashTime2 = SmartDashboard.getNumber("time2", 0);
+
+    if((dashFwd1 != fwd1)) {fwd1 = dashFwd1; }
+    if((dashFwd2 != fwd2)) {fwd2 = dashFwd2; }
+    if((dashRot1 != rot1)) {rot1 = dashRot1; }
+    if((dashRot2 != rot2)) {rot2 = dashRot2; }
+    if((dashTime1 != time1)) {time1 = dashTime1; }
+    if((dashTime2 != time2)) {time2 = dashTime2; }
+
+
+
   }
 
   /**
@@ -85,9 +120,6 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.schedule();
     }
-
-    m_drive.arcadeDrive(0, 0);
-
   }
 
   /**
@@ -95,6 +127,19 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousPeriodic() {
+    if (!timerStarted){
+      timer.start();
+      timerStarted = !timerStarted;
+    }
+    if (timer.get() <= time1) {
+      m_drive.arcadeDrive(fwd1, rot1);
+      return;
+    } else if (timer.get() <= time2){
+      m_drive.arcadeDrive(fwd2, rot2);
+      return;
+    } else {
+      return;
+    }
   }
 
   @Override
