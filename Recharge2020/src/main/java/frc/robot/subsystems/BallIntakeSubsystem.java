@@ -7,23 +7,24 @@
 
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj.Compressor;
+//import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
-import edu.wpi.first.wpilibj.Spark;
+import edu.wpi.first.wpilibj.PWMVictorSPX;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.DriveConstants;
 
 public class BallIntakeSubsystem extends SubsystemBase {
   
-  private Spark intakeMotor = new Spark(DriveConstants.kIntakeMotor);
+  private PWMVictorSPX intakeMotor = new PWMVictorSPX(DriveConstants.kIntakeMotor);
   
   private DoubleSolenoid leftPneumatic = new DoubleSolenoid(0, 1);
   private DoubleSolenoid rightPneumatic = new DoubleSolenoid(2, 3);
-  /*
-  private Compressor compressor = new Compressor(0);
-  private double compressorCurrent = compressor.getCompressorCurrent();
-  */
+  
+  //private Compressor compressor = new Compressor(0);
+  
+  //private double compressorCurrent = compressor.getCompressorCurrent();
+
 
   /**
    * Creates a new BallIntakeSubsystem.
@@ -38,10 +39,10 @@ public class BallIntakeSubsystem extends SubsystemBase {
   }
   
   /**
-   * runs intake IN at 50%
+   * runs the intake [-1,1]
    */
-  public void intakeIn(){
-    intakeMotor.set(0.5);
+  public void intakeSetSpeed(double speed){
+    intakeMotor.set(speed);
   }
 
    /**
@@ -53,18 +54,15 @@ public class BallIntakeSubsystem extends SubsystemBase {
   }
 
   /**
-   * runs intake out at 50%
-   */
-  public void intakeOut(){
-    intakeMotor.set(-0.5);
-  }
-
-  /**
    * runs intake Out based on joystick value
    * @param joystick 0-1 input power % for intake speed
    */
   public void intakeOut(double joystick){
     intakeMotor.set(Math.abs(joystick)*(DriveConstants.kIntakeIsReversed ? 1.0 : -1.0));
+  }
+
+  public void stopIntakeMotor(){
+    intakeMotor.stopMotor();
   }
 
   /**

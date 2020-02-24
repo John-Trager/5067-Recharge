@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.DriveConstants;
 
 public class BallIndexSubsystem extends SubsystemBase {
-  Spark frontRollerMotor = new Spark(DriveConstants.kIndexRoller);
+  
   Spark midIndexMotor = new Spark(DriveConstants.kMidIndexMotor);
   Spark backIndexMotor = new Spark(DriveConstants.kBackIndexMotor);
 

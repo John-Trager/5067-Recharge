@@ -21,6 +21,7 @@ import edu.wpi.first.wpilibj.trajectory.TrajectoryConfig;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryGenerator;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryUtil;
 import edu.wpi.first.wpilibj.trajectory.constraint.DifferentialDriveVoltageConstraint;
+import frc.robot.subsystems.BallIntakeSubsystem;
 import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
@@ -28,15 +29,14 @@ import frc.robot.utils.Limelight;
 import frc.robot.utils.Limelight.LightMode;
 import frc.robot.commands.TurnToTarget;
 import frc.robot.commands.TurnToAngle;
-import frc.robot.commands.TurnToBall;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import edu.wpi.first.wpilibj2.command.button.POVButton;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.OIConstants;
+import frc.robot.Constants.swagGuitar;
 
 import static edu.wpi.first.wpilibj.XboxController.Button;
 
@@ -58,12 +58,15 @@ public class RobotContainer {
   private DriveSubsystem m_robotDrive = new DriveSubsystem();
   private ShooterSubsystem m_shooter = new ShooterSubsystem();
   private ClimberSubsystem m_Climb = new ClimberSubsystem();
+  private BallIntakeSubsystem m_BallIntake = new BallIntakeSubsystem();
 
   //private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
 
   //the drivers and operators controller
   public XboxController m_driverController = new XboxController(OIConstants.kDriverControllerPort);
   public XboxController m_operatorController = new XboxController(OIConstants.kOperatorControllerPort);
+
+  public XboxController m_guitar  = new XboxController(OIConstants.kGuitarPort);
 
 
 
@@ -91,67 +94,69 @@ public class RobotContainer {
    * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
+
+    /**
+     * Drive Controls
+     * 
+     *  - Right Bumper: Slow Drive
+     *  - TODO: X button: Rotate then shoot balls (just rotates rn)
+     */
+
+    // Drive at half speed when the right bumper is held
+    new JoystickButton(m_driverController, Button.kBumperRight.value)
+      .whenPressed(() -> m_robotDrive.setMaxOutput(0.25))
+      .whenReleased(() -> m_robotDrive.setMaxOutput(0.8));
+
+    // Rotates to Vison Target, spins up motors based on distance, when released stops motors
+    new JoystickButton(m_driverController, Button.kX.value)
+      .whenHeld(new TurnToTarget(m_robotDrive, m_driverController.getY(GenericHID.Hand.kRight)))
+      .whenPressed(() -> m_shooter.distanceVelocityShooter())
+      .whenReleased(() -> m_shooter.stopShooterMotors());
+      //.toggleWhenPressed(new TurnToTarget(m_robotDrive, m_driverController.getY(GenericHID.Hand.kRight)));
+
+
+    //turns the shooter on
+    new JoystickButton(m_operatorController, Button.kY.value)
+      .whileHeld(() -> m_shooter.startShooter(m_operatorController.getTriggerAxis(GenericHID.Hand.kRight)));
+
+
+
+    /**
+     * Op - Controls
+     *  
+     *  - Y button: extend elevator to max set height
+     */
     
     //starts the climber winch
     new JoystickButton(m_operatorController, Button.kB.value)
         .whileHeld(() -> m_Climb.startClimb(m_operatorController.getTriggerAxis(Hand.kLeft)));
+
     //extends the elevator 
     new JoystickButton(m_operatorController, Button.kB.value)
         .whileHeld(() -> m_Climb.extendElevatorCAN(m_operatorController.getTriggerAxis(Hand.kRight)));
-    //retracts the elevator
-    //new JoystickButton(m_operatorController, Button.kA.value)
-      //  .whileHeld(() -> m_Climb.retractElevator(m_operatorController.getTriggerAxis(Hand.kRight)));
-        
-    // Drive at half speed when the right bumper is held
-    new JoystickButton(m_driverController, Button.kBumperRight.value)
-        .whenPressed(() -> m_robotDrive.setMaxOutput(0.25))
-        .whenReleased(() -> m_robotDrive.setMaxOutput(0.5));
 
-    // Rotates to Vison Target
-    new JoystickButton(m_driverController, Button.kX.value)
-        .toggleWhenPressed(new TurnToTarget(m_robotDrive, m_driverController.getY(GenericHID.Hand.kRight)));
-
-    //turns limelight leds off
-    new JoystickButton(m_driverController, Button.kB.value)
-     .whenPressed(() -> Limelight.setLedMode(frc.robot.utils.Limelight.LightMode.eOff));
-
-    //turns limelight leds on
-    new JoystickButton(m_driverController, Button.kA.value)
-     .whenPressed(() -> Limelight.setLedMode(LightMode.eOn));
-
-    //turns the shooter on
-    new JoystickButton(m_operatorController, Button.kY.value)
-     .whileHeld(() -> m_shooter.startShooter(m_operatorController.getTriggerAxis(GenericHID.Hand.kRight)));
-
-    //turn to ball if ball is in view
-    new JoystickButton(m_driverController, Button.kY.value)
-      .toggleWhenPressed(new TurnToBall(m_robotDrive, m_driverController.getY(GenericHID.Hand.kRight)));
-
-    //rotates to set angle from D-PAD
-    new POVButton(m_driverController, 90)
-      .whenPressed(new TurnToAngle(m_robotDrive, 90, m_driverController.getY(GenericHID.Hand.kRight)));
     
-    /**new POVButton(m_driverController, 45)
-      .whenPressed(new TurnToAngle(m_robotDrive, 45, m_driverController.getY(GenericHID.Hand.kRight)));
+    // Guitar code
 
-      new POVButton(m_driverController, 90)
-      .whenPressed(new TurnToAngle(m_robotDrive, 90, m_driverController.getY(GenericHID.Hand.kRight)));
+    //extends the elevator 
+    new JoystickButton(m_guitar, swagGuitar.plusButton)
+        .whileHeld(() -> m_Climb.extendElevatorPID());
 
-    new POVButton(m_driverController, 135)
-      .whenPressed(new TurnToAngle(m_robotDrive, 135, m_driverController.getY(GenericHID.Hand.kRight)));
-      
-    new POVButton(m_driverController, 180)
-      .whenPressed(new TurnToAngle(m_robotDrive, 180, m_driverController.getY(GenericHID.Hand.kRight)));
+    //retracts the elevator 
+    new JoystickButton(m_guitar, swagGuitar.minusButton)
+        .whileHeld(() -> m_Climb.retractElevatorCAN());
 
-    new POVButton(m_driverController, 225)
-      .whenPressed(new TurnToAngle(m_robotDrive, 225, m_driverController.getY(GenericHID.Hand.kRight)));
+    //extends the intake and runs intake motor stops motor when released
+    new JoystickButton(m_guitar, swagGuitar.greenButton)
+        .whenPressed(() -> m_BallIntake.extendIntake())
+        .whileHeld(() -> m_BallIntake.intakeSetSpeed(0.3))
+        .whenReleased(() -> m_BallIntake.stopIntakeMotor());
 
-    new POVButton(m_driverController, 270)
-      .whenPressed(new TurnToAngle(m_robotDrive, 270, m_driverController.getY(GenericHID.Hand.kRight)));
-
-    new POVButton(m_driverController, 315)
-      .whenPressed(new TurnToAngle(m_robotDrive, 315, m_driverController.getY(GenericHID.Hand.kRight)));    
-    */
+    //retracts the intake and stops the motor
+    new JoystickButton(m_guitar, swagGuitar.greenButton)
+        .whenPressed(() -> m_BallIntake.retractIntake())
+        .whenPressed(() -> m_BallIntake.stopIntakeMotor());
+       
   }
 
 

@@ -31,17 +31,13 @@ public final class Constants {
         public static final int kBottomShooter = 6;
         //Climb Elevator CAN ID
         public static final int kElevatorCAN = 7;
-        //turret CAN ID
-        public static final int kTurretMotor = 8;
+        // Indexer CAN input
+        public static final int kMidIndexMotor = 8;
+        public static final int kBackIndexMotor = 9;
         // Climb PWM input
-        public static final int kClimbMotor = 0;
-        public static final int kElevatorPWM = 1;
-        // Indexer PWM input
-        public static final int kIndexRoller = 2;
-        public static final int kMidIndexMotor = 3;
-        public static final int kBackIndexMotor = 4;
+        public static final int kClimbMotor = 1;
         //ball intake PWM
-        public static final int kIntakeMotor = 5;
+        public static final int kIntakeMotor = 0;
         //reverse motor booleans
         public static final boolean kClimberIsReversed = false;
         public static final boolean kElevatorIsReversed = false;
@@ -60,8 +56,13 @@ public final class Constants {
         public static final boolean rightEncoderisReversed = false;
         public static final boolean leftEncoderisReversed = true;
 
-        //target position for elevator
-        public static final double kSetPositionClimb = 100;
+         //target position for elevator
+         public static double kSetPositionClimb = 20000;
+         //soft limit in raw units for climb elevtor
+         public static final int kForwardSoftLimit = 22000;
+         public static final int kReverseSoftLimit = 0;
+         //for deviding encoder values into useful units
+         public static final double kEncoderRevolutions = 1;
     }
 
     public static final class toAngleConstants{
@@ -80,8 +81,10 @@ public final class Constants {
     }
 
     public static final class OIConstants {
-        public static final int kDriverControllerPort = 1;
-        public static final int kOperatorControllerPort = 0;
+        public static final int kDriverControllerPort = 0;
+        public static final int kOperatorControllerPort = 1;
+        //TODO: test guitar then delete second op controller
+        public static final int kGuitarPort = 2;
         public static final int kFrontCamera = 0;
         public static final int kRearCamera = 1;
 
@@ -115,10 +118,10 @@ public final class Constants {
     }
 
     public static final class swagGuitar {
-        //frets colored-buttons
-        public static final int greenButton = 1;
-        public static final int redButton = 1;
-        public static final int yellowButton = 1;
+        //frets colored-buttons TODO: map buttons actual IDs
+        public static final int greenButton = 4;
+        public static final int redButton = 2;
+        public static final int yellowButton = 0;
         public static final int blueButton = 1;
         public static final int orangeButton = 1;
         //bar that you can pull down
@@ -129,6 +132,9 @@ public final class Constants {
         //strummer is 0 and 180 degrees d-pad
         public static final int strumUp = 0;
         public static final int strumDown = 180;
+        //joystick axises
+        public static final int xAxis = 1;
+        public static final int yAxis = 2;
     }    
 
 }
