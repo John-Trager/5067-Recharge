@@ -27,8 +27,6 @@ public class Robot extends TimedRobot {
 
   private RobotContainer m_robotContainer;
 
-  public AHRS ahrs = new AHRS(SPI.Port.kMXP);
-
   boolean tempPrevious = false;
   boolean toggle = false;
 
@@ -42,9 +40,7 @@ public class Robot extends TimedRobot {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
-
-    ahrs.zeroYaw();
-
+    
   }
 
   /**

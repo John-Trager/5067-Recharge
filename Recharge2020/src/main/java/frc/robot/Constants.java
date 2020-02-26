@@ -34,10 +34,10 @@ public final class Constants {
         // Indexer CAN input
         public static final int kMidIndexMotor = 8;
         public static final int kBackIndexMotor = 9;
-        // Climb PWM input
-        public static final int kClimbMotor = 1;
-        //ball intake PWM
-        public static final int kIntakeMotor = 0;
+        //ball intake CAN ID
+         public static final int kIntakeMotor = 10;
+        // Climb CAN input
+        public static final int kClimbMotor = 11;
         //reverse motor booleans
         public static final boolean kClimberIsReversed = false;
         public static final boolean kElevatorIsReversed = false;
@@ -110,8 +110,8 @@ public final class Constants {
         public static final DifferentialDriveKinematics kDriveKinematics =
             new DifferentialDriveKinematics(kTrackwidthMeters);
 
-        public static final double kMaxSpeedMetersPerSecond = 0.5;
-        public static final double kMaxAccelerationMetersPerSecondSquared = 0.25;
+        public static final double kMaxSpeedMetersPerSecond = 3;
+        public static final double kMaxAccelerationMetersPerSecondSquared = 3;
         // Reasonable baseline values for a RAMSETE follower in units of meters and seconds
         public static final double kRamseteB = 2;
         public static final double kRamseteZeta = 0.7;

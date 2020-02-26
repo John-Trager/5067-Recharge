@@ -38,6 +38,9 @@ public class ShooterSubsystem extends SubsystemBase {
     topShooter.restoreFactoryDefaults();
     bottomShooter.restoreFactoryDefaults();
 
+    topShooter.enableVoltageCompensation(12);
+    bottomShooter.enableVoltageCompensation(12);
+
     topShooter.setInverted(false);
     bottomShooter.setInverted(true);
 

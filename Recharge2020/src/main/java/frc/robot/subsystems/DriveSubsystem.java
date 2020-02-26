@@ -10,12 +10,12 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.InvertType;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
 import com.ctre.phoenix.motorcontrol.can.TalonFXConfiguration;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.SPI;
-
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
@@ -48,8 +48,11 @@ public class DriveSubsystem extends SubsystemBase {
 
   /**
   * Creates a new DriveSubsystem.
+  //TODO: check if encoder conversions are correct and re charcterized robot
   */ 
   public DriveSubsystem() {
+    
+    //SETTINGS for TalonFXs
 
     //setting motors to factory defualt to prevent unexspected behavior
     frontLeftMotor.configFactoryDefault();
@@ -59,13 +62,44 @@ public class DriveSubsystem extends SubsystemBase {
     //select falcons integrated encoders
     frontLeftMotor.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
     frontRightMotor.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
+    //make rear motor controllers slave to the masters (front controllers)
+    rearLeftMotor.follow(frontLeftMotor);
+    rearRightMotor.follow(frontRightMotor);
+    //adjust the direction of the motors
+    frontLeftMotor.setInverted(true);
+    frontRightMotor.setInverted(true);
+    //have slaves be the same inversion as their corosponding masters
+    rearLeftMotor.setInverted(InvertType.FollowMaster);
+    rearRightMotor.setInverted(InvertType.FollowMaster);
     //sets motors to neutral
-    frontLeftMotor.setNeutralMode(NeutralMode.Brake);
-    frontRightMotor.setNeutralMode(NeutralMode.Brake);
-    rearLeftMotor.setNeutralMode(NeutralMode.Brake);
-    rearRightMotor.setNeutralMode(NeutralMode.Brake);
-    
-    
+    frontLeftMotor.setNeutralMode(NeutralMode.Coast);
+    frontRightMotor.setNeutralMode(NeutralMode.Coast);
+    rearLeftMotor.setNeutralMode(NeutralMode.Coast);
+    rearRightMotor.setNeutralMode(NeutralMode.Coast);
+    //Setting deadband(area required to start moving the motor) to 1%
+    frontLeftMotor.configNeutralDeadband(0.01);
+    frontRightMotor.configNeutralDeadband(0.01);
+    rearLeftMotor.configNeutralDeadband(0.01);
+    rearRightMotor.configNeutralDeadband(0.01);
+    //Sets voltage compensation to 12, used for percent output
+    frontLeftMotor.configVoltageCompSaturation(12);
+    frontRightMotor.configVoltageCompSaturation(12);
+    rearLeftMotor.configVoltageCompSaturation(12);
+    rearRightMotor.configVoltageCompSaturation(12);
+    frontLeftMotor.enableVoltageCompensation(true);
+    frontRightMotor.enableVoltageCompensation(true);
+    rearLeftMotor.enableVoltageCompensation(true);
+    rearRightMotor.enableVoltageCompensation(true);
+    /** 
+    * Setting input side current limit (amps)
+    * 45 continious, 80 peak, 30 millieseconds allowed at peak
+    * 40 amp breaker can support above 40 amps for a little bit
+    * Falcons have insane acceleration so allowing it to reach 80 for 0.03 seconds should be fine
+    */
+    frontLeftMotor.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, 45, 80, 30));
+    frontRightMotor.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, 45, 80, 30));
+    rearLeftMotor.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, 45, 80, 30));
+    rearRightMotor.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, 45, 80, 30));
     //ramps up motors during Open Loop
     frontLeftMotor.configOpenloopRamp(0.2);
     frontRightMotor.configOpenloopRamp(0.2);
@@ -77,15 +111,6 @@ public class DriveSubsystem extends SubsystemBase {
     rearLeftMotor.configClosedloopRamp(0);
     rearRightMotor.configClosedloopRamp(0);
 
-    //make rear motor controllers slave to the masters (front controllers)
-    rearLeftMotor.follow(frontLeftMotor);
-    rearRightMotor.follow(frontRightMotor);
-    //adjust the direction of the motors
-    frontLeftMotor.setInverted(true);
-    frontRightMotor.setInverted(true);
-    //have slaves be the same inversion as their corosponding masters
-    rearLeftMotor.setInverted(InvertType.FollowMaster);
-    rearRightMotor.setInverted(InvertType.FollowMaster);
     //create odometry object
     m_odometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(getHeading()));
     //reset the encoders
@@ -96,7 +121,7 @@ public class DriveSubsystem extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
     m_odometry.update(Rotation2d.fromDegrees(getHeading()), getLeftDistance(),
-                      getRightDistance());
+                                                            getRightDistance());
     SmartDashboard.putNumber("Right Distance", getRightDistance());
     SmartDashboard.putNumber("Left Distance", getLeftDistance());
   }
@@ -257,6 +282,16 @@ public class DriveSubsystem extends SubsystemBase {
    */
   public double getLeftRate(){
     return ((frontLeftMotor.getSelectedSensorVelocity()/2048.0)/DriveConstants.driveRatio)*(2.0*Math.PI*0.0762);
+  }
+
+  /**
+   * stops all drivetrain motors
+   */
+  public void stopDriveTrain(){
+    frontLeftMotor.stopMotor();
+    frontRightMotor.stopMotor();
+    rearLeftMotor.stopMotor();
+    rearRightMotor.stopMotor();
   }
 
   public void setSafetyEnabledForAll(){

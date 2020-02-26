@@ -7,16 +7,18 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
+
 //import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
-import edu.wpi.first.wpilibj.PWMVictorSPX;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.DriveConstants;
 
 public class BallIntakeSubsystem extends SubsystemBase {
   
-  private PWMVictorSPX intakeMotor = new PWMVictorSPX(DriveConstants.kIntakeMotor);
+  private WPI_VictorSPX intakeMotor = new WPI_VictorSPX(DriveConstants.kIntakeMotor);
   
   private DoubleSolenoid leftPneumatic = new DoubleSolenoid(0, 1);
   private DoubleSolenoid rightPneumatic = new DoubleSolenoid(2, 3);
@@ -31,6 +33,13 @@ public class BallIntakeSubsystem extends SubsystemBase {
    */
   public BallIntakeSubsystem() {
 
+    //setup parameters for intake motor
+    intakeMotor.configFactoryDefault();
+    intakeMotor.configNeutralDeadband(0.01);
+    intakeMotor.setNeutralMode(NeutralMode.Coast);
+    intakeMotor.configOpenloopRamp(0.5);
+    intakeMotor.configVoltageCompSaturation(12);
+    intakeMotor.enableVoltageCompensation(true);
   }
 
   @Override
