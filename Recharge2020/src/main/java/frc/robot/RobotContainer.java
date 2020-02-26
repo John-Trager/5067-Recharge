@@ -21,6 +21,7 @@ import edu.wpi.first.wpilibj.trajectory.TrajectoryConfig;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryGenerator;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryUtil;
 import edu.wpi.first.wpilibj.trajectory.constraint.DifferentialDriveVoltageConstraint;
+import frc.robot.subsystems.BallIndexSubsystem;
 import frc.robot.subsystems.BallIntakeSubsystem;
 import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
@@ -59,6 +60,7 @@ public class RobotContainer {
   private ShooterSubsystem m_shooter = new ShooterSubsystem();
   private ClimberSubsystem m_Climb = new ClimberSubsystem();
   private BallIntakeSubsystem m_BallIntake = new BallIntakeSubsystem();
+  private BallIndexSubsystem m_Indexer = new BallIndexSubsystem();
 
   //private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
 
@@ -107,11 +109,14 @@ public class RobotContainer {
       .whenPressed(() -> m_robotDrive.setMaxOutput(0.25))
       .whenReleased(() -> m_robotDrive.setMaxOutput(0.8));
 
-    // Rotates to Vison Target, spins up motors based on distance, when released stops motors
+    // Turns LL light on, Rotates to Vison Target, spins up motors based on distance, sends balls to shooter, when released stops motors & turns off limelight
     new JoystickButton(m_driverController, Button.kX.value)
+      .whenPressed(() -> Limelight.setLedMode(LightMode.eOn))
       .whenHeld(new TurnToTarget(m_robotDrive, m_driverController.getY(GenericHID.Hand.kRight)))
       .whenPressed(() -> m_shooter.distanceVelocityShooter())
-      .whenReleased(() -> m_shooter.stopShooterMotors());
+      .whileHeld(() -> m_Indexer.ballsToShooter())
+      .whenReleased(() -> m_shooter.stopShooterMotors())
+      .whenReleased(() -> Limelight.setLedMode(LightMode.eOff));
       //.toggleWhenPressed(new TurnToTarget(m_robotDrive, m_driverController.getY(GenericHID.Hand.kRight)));
 
 
@@ -149,7 +154,7 @@ public class RobotContainer {
     //extends the intake and runs intake motor stops motor when released
     new JoystickButton(m_guitar, swagGuitar.greenButton)
         .whenPressed(() -> m_BallIntake.extendIntake())
-        .whileHeld(() -> m_BallIntake.intakeSetSpeed(0.3))
+        .whileHeld(() -> m_BallIntake.intakeSetSpeed(0.4))
         .whenReleased(() -> m_BallIntake.stopIntakeMotor());
 
     //retracts the intake and stops the motor

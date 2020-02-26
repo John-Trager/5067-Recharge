@@ -17,6 +17,8 @@ import frc.robot.Constants.DriveConstants;
 // information, see:
 // https://docs.wpilib.org/en/latest/docs/software/commandbased/convenience-features.html
 public class TurnToTarget extends PIDCommand {
+
+  public double lastError;
   /**
    * Turns the robot to vision target
    *
@@ -35,18 +37,19 @@ public class TurnToTarget extends PIDCommand {
         // This uses the output
         output -> {
           // Use the output here
-          m_drive.arcadeDrive(rightJoystick + (Limelight.getTy()*0.025), output+DriveConstants.kF);
+          //m_drive.arcadeDrive(rightJoystick + (Limelight.getTy()*0.025), output+DriveConstants.kF);
+          m_drive.arcadeDrive(rightJoystick, output);
         },
         //requires DriveSubsystem
         m_drive);
 
-    //getController().setTolerance(DriveConstants.kTolerance);
-    
+
+        
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false; //getController().atSetpoint();
+    return false;
   }
 }

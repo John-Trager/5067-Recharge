@@ -29,7 +29,7 @@ public class ShooterSubsystem extends SubsystemBase {
   private CANPIDController mPIDControllerTop;
   private CANPIDController mPIDControllerBottom;
 
-  public double kP, kI, kD, kIz, kFF, kMaxOutput, kMinOutput, maxRPM, bottomSetpointRPM, topSetpointRPM;
+  public double kP, kI, kD, kIz, kFF, kMaxOutput, kMinOutput, maxRPM, bottomSetpointRPM, topSetpointRPM, topError, bottomError;
 
   /**
    * Creates a new ShooterSubsystem.
@@ -45,7 +45,7 @@ public class ShooterSubsystem extends SubsystemBase {
     bottomShooter.setInverted(true);
 
     //topShooter.setIdleMode(IdleMode.kBrake);
-    
+
     //set up PID 
     topSetpointRPM = 5600;
     bottomSetpointRPM = 5600;
@@ -147,7 +147,10 @@ public class ShooterSubsystem extends SubsystemBase {
   public void velocityShooterTrigger(double trigger){
     double setpoint = trigger*maxRPM;
     mPIDControllerTop.setReference(setpoint, ControlType.kVelocity);
-    mPIDControllerBottom.setReference(bottomSetpointRPM, ControlType.kVelocity);
+    mPIDControllerBottom.setReference(setpoint, ControlType.kVelocity);
+
+    topError = topSetpointRPM - topEncoder.getVelocity();
+    bottomError = bottomSetpointRPM - bottomEncoder.getVelocity();
   }
 
   /**
@@ -155,17 +158,26 @@ public class ShooterSubsystem extends SubsystemBase {
    * @param setpoint desired RPM of top motor
    * @param bottomSetpointRPM desired RPM of bottom motor
    */
-  public void velocityShooter(double topSetpoint, double bottomSetpointRPM){
-    mPIDControllerTop.setReference(topSetpoint, ControlType.kVelocity);
+  public void velocityShooter(double topSetpointRPM, double bottomSetpointRPM){
+    mPIDControllerTop.setReference(topSetpointRPM, ControlType.kVelocity);
     mPIDControllerBottom.setReference(bottomSetpointRPM, ControlType.kVelocity);
+
+    topError = topSetpointRPM - topEncoder.getVelocity();
+    bottomError = bottomSetpointRPM - bottomEncoder.getVelocity();
+
   }
 
   /**
+   * FOR TESTING
    * runs both motors at set RPM
    */
   public void velocityShooter(){
+
     mPIDControllerTop.setReference(topSetpointRPM, ControlType.kVelocity);
     mPIDControllerBottom.setReference(bottomSetpointRPM, ControlType.kVelocity);
+
+    topError = topSetpointRPM - topEncoder.getVelocity();
+    bottomError = bottomSetpointRPM - bottomEncoder.getVelocity();
   }
 
   /**
@@ -219,6 +231,9 @@ public class ShooterSubsystem extends SubsystemBase {
   public void distanceVelocityShooter(){
     mPIDControllerTop.setReference(distanceToTopRPM(distanceToTarget()), ControlType.kVelocity);
     mPIDControllerBottom.setReference(distanceToBottomRPM(distanceToTarget()), ControlType.kVelocity);
+
+    topError = topSetpointRPM - topEncoder.getVelocity();
+    bottomError = bottomSetpointRPM - bottomEncoder.getVelocity();
   }
 
   public void stopShooterMotors(){

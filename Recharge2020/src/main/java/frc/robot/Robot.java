@@ -7,13 +7,10 @@
 
 package frc.robot;
 
-import com.kauailabs.navx.frc.AHRS;
-
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import edu.wpi.first.wpilibj.SPI;
 
 
 /**
@@ -106,6 +103,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void teleopPeriodic() {
+    //TODO: possible delete as not used as toggle anymore
     //smartDashboard Toggle for if TurnToTarget is on
     if (!tempPrevious && m_robotContainer.m_driverController.getXButton()){
       toggle = !toggle;

@@ -49,7 +49,11 @@ public final class Constants {
         public static final double kP = 0.085;
         public static final double kI = 0.045;
         public static final double kD = 0.003;
-        public static final double kTolerance = 0.1;
+        public static final double kTolerance = 0.8;
+        public static final double kIndexerPower = 0.5;
+        //shooter constants
+        //threshold RPM limit
+        public static final double shooterThreshold = 300;
 
         //gear ratio of drive train
         public static final double driveRatio = 8.45;
@@ -64,6 +68,7 @@ public final class Constants {
          //for deviding encoder values into useful units
          public static final double kEncoderRevolutions = 1;
     }
+
 
     public static final class toAngleConstants{
         //constants for turn to angle
