@@ -23,7 +23,6 @@ import edu.wpi.first.wpilibj.trajectory.TrajectoryUtil;
 import edu.wpi.first.wpilibj.trajectory.constraint.DifferentialDriveVoltageConstraint;
 import frc.robot.subsystems.BallIndexSubsystem;
 import frc.robot.subsystems.BallIntakeSubsystem;
-import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.utils.Limelight;
@@ -57,7 +56,6 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private DriveSubsystem m_robotDrive = new DriveSubsystem();
   private ShooterSubsystem m_shooter = new ShooterSubsystem();
-  private ClimberSubsystem m_Climb = new ClimberSubsystem();
   private BallIntakeSubsystem m_BallIntake = new BallIntakeSubsystem();
   private BallIndexSubsystem m_Indexer = new BallIndexSubsystem();
 
@@ -131,24 +129,6 @@ public class RobotContainer {
      *  - Y button: extend elevator to max set height
      */
     
-    //starts the climber winch
-    new JoystickButton(m_operatorController, Button.kB.value)
-        .whileHeld(() -> m_Climb.startClimb(m_operatorController.getTriggerAxis(Hand.kLeft)));
-
-    //extends the elevator 
-    new JoystickButton(m_operatorController, Button.kB.value)
-        .whileHeld(() -> m_Climb.extendElevatorCAN(m_operatorController.getTriggerAxis(Hand.kRight)));
-
-    
-    // Guitar code
-
-    //extends the elevator 
-    new JoystickButton(m_guitar, swagGuitar.plusButton)
-        .whileHeld(() -> m_Climb.extendElevatorPID());
-
-    //retracts the elevator 
-    new JoystickButton(m_guitar, swagGuitar.minusButton)
-        .whileHeld(() -> m_Climb.retractElevatorCAN());
 
     //extends the intake and runs intake motor stops motor when released
     new JoystickButton(m_guitar, swagGuitar.greenButton)
@@ -230,7 +210,8 @@ public class RobotContainer {
     );
 
     // Run path following command, then stop at the end.
-    return ramseteCommand.andThen(() -> m_robotDrive.stopDriveTrain());
+    //return ramseteCommand.andThen(() -> m_robotDrive.stopDriveTrain());
+    return new InstantCommand();
    
    /* // An ExampleCommand will run in autonomous
     //return m_autoCommand;
