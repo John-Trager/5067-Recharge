@@ -103,8 +103,8 @@ public class RobotContainer {
 
     // Drive at half speed when the right bumper is held
     new JoystickButton(m_driverController, Button.kBumperRight.value)
-      .whenPressed(() -> m_robotDrive.setMaxOutput(0.25))
-      .whenReleased(() -> m_robotDrive.setMaxOutput(0.8));
+      .whenPressed(() -> m_robotDrive.setMaxOutput(0.3))
+      .whenReleased(() -> m_robotDrive.setMaxOutput(1));
 
     // Turns LL light on, Rotates to Vison Target, spins up motors based on distance, sends balls to shooter, when released stops motors & turns off limelight
     new JoystickButton(m_driverController, Button.kX.value)
@@ -128,8 +128,36 @@ public class RobotContainer {
      *  
      *  - Y button: extend elevator to max set height
      */
-    
 
+    //extends the intake and runs intake motor stops motor when released
+    new JoystickButton(m_operatorController, Button.kY.value)
+        .whenPressed(() -> m_BallIntake.extendIntake())
+        .whileHeld(() -> m_BallIntake.intakeSetSpeed(0.4))
+        .whenReleased(() -> m_BallIntake.stopIntakeMotor());
+
+    //retracts the intake and stops the motor
+    new JoystickButton(m_operatorController, Button.kA.value)
+        .whenPressed(() -> m_BallIntake.retractIntake())
+        .whenPressed(() -> m_BallIntake.stopIntakeMotor());
+
+    //TEST running the indexer
+    new JoystickButton(m_operatorController, Button.kX.value)
+        .whenPressed(() -> m_Indexer.runMidIndexer(0.5))
+        .whenPressed(() -> m_Indexer.runBackIndexer(0.5))
+        .whenReleased(() -> m_Indexer.stopIndexer());
+    
+    //TEST running the indexer
+    new JoystickButton(m_operatorController, Button.kB.value)
+        .whenPressed(() -> m_Indexer.runMidIndexer(-0.5))
+        .whenPressed(() -> m_Indexer.runBackIndexer(-0.5))
+        .whenReleased(() -> m_Indexer.stopIndexer());
+
+    
+    /**
+     * Op - Controls BUT for guitar
+     *  
+     *  - Y button: extend elevator to max set height
+     */    
     //extends the intake and runs intake motor stops motor when released
     new JoystickButton(m_guitar, swagGuitar.greenButton)
         .whenPressed(() -> m_BallIntake.extendIntake())

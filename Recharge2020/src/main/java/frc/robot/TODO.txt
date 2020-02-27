@@ -1,3 +1,84 @@
+Kettering Week 1:
+
+Thursday TODO:
+
+   Bring tomorrow:
+   -flower crowns
+   -3d print usb camera
+   -Victor SPXs off the test bot
+
+   To Make:
+   -Limelight mount
+   -Shooter Back-Stop
+   *-TalonSRX 
+   *-Redline
+   -shooter guides to keep ball centered
+   -solder sensors
+
+   More TODO:
+   -get Spark Max's working (not receiving signal)
+   -test / set constants for ultrasonic sensor
+   -test getDistance based off of Ty from Limelight
+   -Auton code drive forward then shoot
+   -Re-assign the correct motors to indexer and climber
+   
+
+   To Test:
+   -pneumatic leaks
+   -pneumatic solenoid directions
+      -programmed right?
+   -shooter RPM working accurately
+   -shooter distance to rpm working
+   -Guitar commands
+   -just the basic command groups
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 Vision Processing:
  - implement LimeLight
     -rotate to target [tune]

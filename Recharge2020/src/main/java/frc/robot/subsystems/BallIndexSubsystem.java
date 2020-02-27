@@ -74,6 +74,14 @@ public class BallIndexSubsystem extends SubsystemBase {
   }
 
   /**
+   * stops the indexer
+   */
+  public void stopIndexer(){
+    backIndexMotor.stopMotor();
+    midIndexMotor.stopMotor();
+  }
+
+  /**
    * If there is a target, the shooter is wihthin 0.8 degrees of it,
    * the shooter is up to speed within a threshold, then send the balls to the shooter
    * 
