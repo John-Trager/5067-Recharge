@@ -36,12 +36,12 @@ public class ClimberSubsystem extends SubsystemBase {
     elevatormotorCAN.setNeutralMode(NeutralMode.Brake);
     climbMotor.setNeutralMode(NeutralMode.Brake);
     //set and enable voltage compensation
-    elevatormotorCAN.configVoltageCompSaturation(12);
+    //elevatormotorCAN.configVoltageCompSaturation(12);
     climbMotor.configVoltageCompSaturation(12);
-    elevatormotorCAN.enableVoltageCompensation(true);
+    //elevatormotorCAN.enableVoltageCompensation(true);
     climbMotor.enableVoltageCompensation(true);
     //limitcurrent to motors
-    elevatormotorCAN.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, 45, 80, 30));
+    //elevatormotorCAN.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, 45, 80, 30));
     climbMotor.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, 45, 80, 30));
 
     // sets soft limit so lift won't over extend (like a rev limiter lol) and enables it
@@ -82,6 +82,7 @@ public class ClimberSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("D Gain ELE", kD);
     SmartDashboard.putNumber("F Gain ELE", kF);
     SmartDashboard.putNumber("ELE setPoint", setPoint);
+    SmartDashboard.putNumber("Elevator Position", elevatormotorCAN.getSelectedSensorPosition());
 
   }
 
@@ -109,14 +110,14 @@ public class ClimberSubsystem extends SubsystemBase {
    * runs climber winch at 50%
    */
   public void startClimb(){
-    climbMotor.set(ControlMode.PercentOutput, 0.5);
+    climbMotor.set(ControlMode.PercentOutput, -0.5);
   }
   /**
    * runs climber winch based on joystick value
    * @param joystick 0-1 input % for climb motor
    */
   public void startClimb(double joystick){
-    climbMotor.set(ControlMode.PercentOutput, Math.abs(joystick)*(DriveConstants.kClimberIsReversed ? 1.0 : -1.0));
+    climbMotor.set(ControlMode.PercentOutput, joystick);
   }
 
   /**
@@ -175,6 +176,10 @@ public class ClimberSubsystem extends SubsystemBase {
     } else {
       elevatormotorCAN.stopMotor();
      }
+  }
+
+  public void elevatorPower(double power){
+    elevatormotorCAN.set(ControlMode.PercentOutput, power);
   }
 
   /**

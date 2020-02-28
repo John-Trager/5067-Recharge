@@ -158,30 +158,41 @@ public class RobotContainer {
 
     //TEST running the indexer
     new JoystickButton(m_operatorController, Button.kX.value)
-        .whenPressed(() -> m_Indexer.runMidIndexer(0.5))
+        .whenPressed(() -> m_Indexer.runMidIndexer(0.65))
         .whenPressed(() -> m_Indexer.runBackIndexer(0.5))
         .whenReleased(() -> m_Indexer.stopIndexer());
     
     //TEST running the indexer
     new JoystickButton(m_operatorController, Button.kB.value)
-        .whenPressed(() -> m_Indexer.runMidIndexer(-0.5))
-        .whenPressed(() -> m_Indexer.runBackIndexer(-0.5))
+        .whenPressed(() -> m_Indexer.runMidIndexer(0.65))
+       //.whenPressed(() -> m_Indexer.runBackIndexer(-0.5))
         .whenReleased(() -> m_Indexer.stopIndexer());
 
     //moves the shooter index down 
-    new JoystickButton(m_operatorController, Button.kStickRight.value)
+    new JoystickButton(m_operatorController, Button.kBack.value)
+        .whenPressed(() -> m_Indexer.runMidIndexer(-0.5))
         .whileHeld(() -> m_Indexer.runBackIndexer(-0.2))
         .whenReleased(() -> m_Indexer.stopIndexer());
 
     //Extend elevator PID
+    /*
     new JoystickButton(m_operatorController, Button.kBumperRight.value)
         .whenPressed(() -> m_climb.extendElevatorPID());
+        */
+    new JoystickButton(m_operatorController, Button.kBumperRight.value)
+        .whenPressed(() -> m_climb.extendElevatorCAN(0.4));
 
     //makes elevator retract bang-bang loop
     new JoystickButton(m_operatorController, Button.kBumperLeft.value)
         .whenPressed(() -> m_climb.retractElevatorCAN())
+        //.whenPressed(() -> m_climb.elevatorPower(m_operatorController.getTriggerAxis(Hand.kLeft)))
         .whenPressed(() -> m_climb.startClimb(m_operatorController.getTriggerAxis(Hand.kRight)))
         .whenReleased(() -> m_climb.stopElevator());
+
+    new JoystickButton(m_operatorController, Button.kStart.value)
+        .whenPressed(() -> m_climb.startClimb())
+        .whenReleased(() -> m_climb.stopClimber());
+    
     
     
     /**
@@ -225,7 +236,7 @@ public class RobotContainer {
     //makes elevator retract bang-bang loop
     new JoystickButton(m_guitar, swagGuitar.redButton)
         .whenPressed(() -> m_climb.retractElevatorCAN())
-        .whenPressed(() -> m_climb.startClimb(m_guitar.getRawAxis(swagGuitar.yAxis)))
+        //.whenPressed(() -> m_climb.startClimb(m_guitar.getRawAxis(swagGuitar.yAxis)))
         .whenReleased(() -> m_climb.stopElevator());
 
     // Turns LL light on, Rotates to Vison Target, spins up motors based on distance, sends balls to shooter, when released stops motors & turns off limelight

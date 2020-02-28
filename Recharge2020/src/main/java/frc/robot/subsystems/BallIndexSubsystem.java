@@ -22,8 +22,8 @@ public class BallIndexSubsystem extends SubsystemBase {
   //private ShooterSubsystem m_shooter = new ShooterSubsystem();
   
   WPI_TalonSRX midIndexMotor = new WPI_TalonSRX(DriveConstants.kMidIndexMotor);
-  WPI_TalonSRX backIndexMotor = new WPI_TalonSRX(DriveConstants.kBackIndexMotor);
-  WPI_VictorSPX backIndexMotorTEMP = new WPI_VictorSPX(DriveConstants.kBackIndexMotor);
+  //WPI_TalonSRX backIndexMotor = new WPI_TalonSRX(DriveConstants.kBackIndexMotor);
+  WPI_VictorSPX backIndexMotor = new WPI_VictorSPX(DriveConstants.kBackIndexMotor);
 
   // TODO: add ultra sonic sensors
 
@@ -34,25 +34,25 @@ public class BallIndexSubsystem extends SubsystemBase {
    
     //setup parameters for Index motors
     midIndexMotor.configFactoryDefault();
-    backIndexMotor.configFactoryDefault();
+    //backIndexMotor.configFactoryDefault();
 
     midIndexMotor.configNeutralDeadband(0.01);
-    backIndexMotor.configNeutralDeadband(0.01);
+   // backIndexMotor.configNeutralDeadband(0.01);
 
     midIndexMotor.setNeutralMode(NeutralMode.Brake);
-    backIndexMotor.setNeutralMode(NeutralMode.Brake);
+   // backIndexMotor.setNeutralMode(NeutralMode.Brake);
 
     midIndexMotor.configOpenloopRamp(0);
-    backIndexMotor.configOpenloopRamp(0);
+   // backIndexMotor.configOpenloopRamp(0);
 
     midIndexMotor.configVoltageCompSaturation(12);
-    backIndexMotor.configVoltageCompSaturation(12);
+    //backIndexMotor.configVoltageCompSaturation(12);
 
     midIndexMotor.enableVoltageCompensation(true);
-    backIndexMotor.enableVoltageCompensation(true);
+    //backIndexMotor.enableVoltageCompensation(true);
 
     midIndexMotor.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, 45, 80, 30));
-    backIndexMotor.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, 45, 80, 30));
+   // backIndexMotor.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, 45, 80, 30));
 
   }
 
@@ -72,7 +72,7 @@ public class BallIndexSubsystem extends SubsystemBase {
    * runs the middle indexer from [1,-1] full forward to full reverse
    */
   public void runBackIndexer(double power){
-    backIndexMotor.set(ControlMode.PercentOutput, power);
+    backIndexMotor.set(ControlMode.PercentOutput, -power);
   }
 
   /**
