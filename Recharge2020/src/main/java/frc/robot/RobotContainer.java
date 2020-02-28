@@ -54,7 +54,9 @@ public class RobotContainer {
   private void configureButtonBindings() {
 
     new JoystickButton(m_operatorController, Button.kB.value)
-      .whenPressed(() -> m_shooter.)
+      .whenPressed(() -> m_shooter.velocityShooter())
+      .whenReleased(() -> m_shooter.stopShooterMotors());
+    
     
   }
 
