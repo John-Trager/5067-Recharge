@@ -176,6 +176,20 @@ public class ClimberSubsystem extends SubsystemBase {
       elevatormotorCAN.stopMotor();
      }
   }
+
+  /**
+   * stops elevator motor
+   */
+  public void stopElevator(){
+    elevatormotorCAN.stopMotor();
+  }
+
+  /**
+   * stops winch motor
+   */
+  public void stopClimber(){
+    climbMotor.stopMotor();
+  }
     
 }
 

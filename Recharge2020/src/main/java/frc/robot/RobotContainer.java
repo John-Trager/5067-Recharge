@@ -23,6 +23,7 @@ import edu.wpi.first.wpilibj.trajectory.TrajectoryUtil;
 import edu.wpi.first.wpilibj.trajectory.constraint.DifferentialDriveVoltageConstraint;
 import frc.robot.subsystems.BallIndexSubsystem;
 import frc.robot.subsystems.BallIntakeSubsystem;
+import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 //import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.utils.Limelight;
@@ -33,6 +34,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.OIConstants;
 import frc.robot.Constants.swagGuitar;
@@ -58,6 +60,7 @@ public class RobotContainer {
   //private ShooterSubsystem m_shooter = new ShooterSubsystem();
   private BallIntakeSubsystem m_BallIntake = new BallIntakeSubsystem();
   private BallIndexSubsystem m_Indexer = new BallIndexSubsystem();
+  private ClimberSubsystem m_climb = new ClimberSubsystem();
 
   //private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
 
@@ -152,6 +155,21 @@ public class RobotContainer {
         .whenPressed(() -> m_Indexer.runBackIndexer(-0.5))
         .whenReleased(() -> m_Indexer.stopIndexer());
 
+    //moves the shooter index down 
+    new JoystickButton(m_operatorController, Button.kStickRight.value)
+        .whileHeld(() -> m_Indexer.runBackIndexer(-0.2))
+        .whenReleased(() -> m_Indexer.stopIndexer());
+
+    //Extend elevator PID
+    new JoystickButton(m_operatorController, Button.kBumperRight.value)
+        .whenPressed(() -> m_climb.extendElevatorPID());
+
+    //makes elevator retract bang-bang loop
+    new JoystickButton(m_operatorController, Button.kBumperRight.value)
+        .whenPressed(() -> m_climb.retractElevatorCAN())
+        .whenPressed(() -> m_climb.startClimb(m_operatorController.getTriggerAxis(Hand.kRight)))
+        .whenReleased(() -> m_climb.stopElevator());
+    
     
     /**
      * Op - Controls BUT for guitar

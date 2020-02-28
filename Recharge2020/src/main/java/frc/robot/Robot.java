@@ -11,6 +11,8 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.utils.Limelight;
+import frc.robot.utils.Limelight.LightMode;
 
 
 /**
@@ -61,6 +63,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void disabledInit() {
+    Limelight.setLedMode(LightMode.eOff);
   }
 
   @Override
@@ -72,7 +75,10 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousInit() {
+    Limelight.setLedMode(LightMode.eOn);
+
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
+
 
     // schedule the autonomous command (example)
     if (m_autonomousCommand != null) {
@@ -93,6 +99,8 @@ public class Robot extends TimedRobot {
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove
     // this line or comment it out.
+    Limelight.setLedMode(LightMode.eOff);
+    
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
 
