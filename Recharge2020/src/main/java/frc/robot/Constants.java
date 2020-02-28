@@ -27,8 +27,8 @@ public final class Constants {
         public static final int kFrontRightMotorPort = 1;
         public static final int kRearRightMotorPort = 2;
         //Shooter CAN IDs
-        public static final int kTopShooter = 5;
-        public static final int kBottomShooter = 6;
+        public static final int kTopShooter = 6;
+        public static final int kBottomShooter = 5;
         //Climb Elevator CAN ID
         public static final int kElevatorCAN = 7;
         // Indexer CAN input

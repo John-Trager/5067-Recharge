@@ -11,6 +11,7 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.DriveConstants;
@@ -18,10 +19,11 @@ import frc.robot.utils.Limelight;
 
 public class BallIndexSubsystem extends SubsystemBase {
 
-  private ShooterSubsystem m_shooter = new ShooterSubsystem();
+  //private ShooterSubsystem m_shooter = new ShooterSubsystem();
   
   WPI_TalonSRX midIndexMotor = new WPI_TalonSRX(DriveConstants.kMidIndexMotor);
   WPI_TalonSRX backIndexMotor = new WPI_TalonSRX(DriveConstants.kBackIndexMotor);
+  WPI_VictorSPX backIndexMotorTEMP = new WPI_VictorSPX(DriveConstants.kBackIndexMotor);
 
   // TODO: add ultra sonic sensors
 
@@ -87,6 +89,7 @@ public class BallIndexSubsystem extends SubsystemBase {
    * 
    * Else stop the motors
    */
+  /*
   public void ballsToShooter(){
     if (Limelight.isTarget() && 
         Math.abs(Limelight.getTx()) <= DriveConstants.kTolerance &&
@@ -103,5 +106,6 @@ public class BallIndexSubsystem extends SubsystemBase {
 
     }
   }
+  */
 
 }

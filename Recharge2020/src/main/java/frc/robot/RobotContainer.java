@@ -24,7 +24,7 @@ import edu.wpi.first.wpilibj.trajectory.constraint.DifferentialDriveVoltageConst
 import frc.robot.subsystems.BallIndexSubsystem;
 import frc.robot.subsystems.BallIntakeSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
-import frc.robot.subsystems.ShooterSubsystem;
+//import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.utils.Limelight;
 import frc.robot.utils.Limelight.LightMode;
 import frc.robot.commands.TurnToTarget;
@@ -46,7 +46,7 @@ import java.util.List;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Filesystem;
 
-/**
+/** 
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
  * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
  * periodic methods (other than the scheduler calls).  Instead, the structure of the robot
@@ -55,7 +55,7 @@ import edu.wpi.first.wpilibj.Filesystem;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private DriveSubsystem m_robotDrive = new DriveSubsystem();
-  private ShooterSubsystem m_shooter = new ShooterSubsystem();
+  //private ShooterSubsystem m_shooter = new ShooterSubsystem();
   private BallIntakeSubsystem m_BallIntake = new BallIntakeSubsystem();
   private BallIndexSubsystem m_Indexer = new BallIndexSubsystem();
 
@@ -110,16 +110,16 @@ public class RobotContainer {
     new JoystickButton(m_driverController, Button.kX.value)
       .whenPressed(() -> Limelight.setLedMode(LightMode.eOn))
       .whenHeld(new TurnToTarget(m_robotDrive, m_driverController.getY(GenericHID.Hand.kRight)))
-      .whenPressed(() -> m_shooter.distanceVelocityShooter())
-      .whileHeld(() -> m_Indexer.ballsToShooter())
-      .whenReleased(() -> m_shooter.stopShooterMotors())
+      //.whenPressed(() -> m_shooter.distanceVelocityShooter())
+      //.whileHeld(() -> m_Indexer.ballsToShooter())
+      //.whenReleased(() -> m_shooter.stopShooterMotors())
       .whenReleased(() -> Limelight.setLedMode(LightMode.eOff));
       //.toggleWhenPressed(new TurnToTarget(m_robotDrive, m_driverController.getY(GenericHID.Hand.kRight)));
 
 
     //turns the shooter on
-    new JoystickButton(m_operatorController, Button.kY.value)
-      .whileHeld(() -> m_shooter.startShooter(m_operatorController.getTriggerAxis(GenericHID.Hand.kRight)));
+    //new JoystickButton(m_operatorController, Button.kY.value)
+      //.whileHeld(() -> m_shooter.startShooter(m_operatorController.getTriggerAxis(GenericHID.Hand.kRight)));
 
 
 
