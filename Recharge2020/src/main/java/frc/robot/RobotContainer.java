@@ -25,9 +25,11 @@ import frc.robot.subsystems.BallIndexSubsystem;
 import frc.robot.subsystems.BallIntakeSubsystem;
 import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.ShooterSubsystem;
 //import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.utils.Limelight;
 import frc.robot.utils.Limelight.LightMode;
+import frc.robot.commands.DriveWithTime;
 import frc.robot.commands.TurnToTarget;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -58,7 +60,7 @@ import edu.wpi.first.wpilibj.Filesystem;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private DriveSubsystem m_robotDrive = new DriveSubsystem();
-  //private ShooterSubsystem m_shooter = new ShooterSubsystem();
+  private ShooterSubsystem m_shooter = new ShooterSubsystem();
   private BallIntakeSubsystem m_BallIntake = new BallIntakeSubsystem();
   private BallIndexSubsystem m_Indexer = new BallIndexSubsystem();
   private ClimberSubsystem m_climb = new ClimberSubsystem();
@@ -112,23 +114,27 @@ public class RobotContainer {
       .whenPressed(() -> m_robotDrive.setMaxOutput(0.3))
       .whenReleased(() -> m_robotDrive.setMaxOutput(1));
 
-    new JoystickButton(m_driverController, Button.kBumperRight.value)
-      .whenPressed(() -> m_BallIntake.extendIntake())
-      .whileHeld(() -> m_BallIntake.intakeSetSpeed(0.4))
-      .whenReleased(() -> m_BallIntake.stopIntakeMotor());
+   // new JoystickButton(m_driverController, Button.kBumperRight.value)
+     // .whenPressed(() -> m_BallIntake.extendIntake())
+     // .whileHeld(() -> m_BallIntake.intakeSetSpeed(0.4))
+     // .whenReleased(() -> m_BallIntake.stopIntakeMotor());
   
     //retracts the intake and stops the motor
     new JoystickButton(m_driverController, Button.kY.value)
       .whenPressed(() -> m_BallIntake.retractIntake())
       .whenPressed(() -> m_BallIntake.stopIntakeMotor());
 
+    new JoystickButton(m_driverController, Button.kB.value)
+      .whenPressed(() -> m_shooter.velocityShooter())
+      .whenReleased(() -> m_shooter.stopShooterMotors());
+
     // Turns LL light on, Rotates to Vison Target, spins up motors based on distance, sends balls to shooter, when released stops motors & turns off limelight
     new JoystickButton(m_driverController, Button.kX.value)
       .whenPressed(() -> Limelight.setLedMode(LightMode.eOn))
       .whenHeld(new TurnToTarget(m_robotDrive, m_driverController.getY(GenericHID.Hand.kRight)))
-      //.whenPressed(() -> m_shooter.distanceVelocityShooter())
-      //.whileHeld(() -> m_Indexer.ballsToShooter())
-      //.whenReleased(() -> m_shooter.stopShooterMotors())
+      .whenPressed(() -> m_shooter.velocityShooter())
+      .whileHeld(() -> m_Indexer.ballsToShooter())
+      .whenReleased(() -> m_shooter.stopShooterMotors())
       .whenReleased(() -> Limelight.setLedMode(LightMode.eOff));
       //.toggleWhenPressed(new TurnToTarget(m_robotDrive, m_driverController.getY(GenericHID.Hand.kRight)));
 
@@ -178,15 +184,15 @@ public class RobotContainer {
     /*
     new JoystickButton(m_operatorController, Button.kBumperRight.value)
         .whenPressed(() -> m_climb.extendElevatorPID());
-        */
+    */
+    
     new JoystickButton(m_operatorController, Button.kBumperRight.value)
-        .whenPressed(() -> m_climb.extendElevatorCAN(0.4));
-
+        .whenPressed(() -> m_climb.extendElevatorCAN(0.4))
+        .whenReleased(() -> m_climb.stopElevator());
+    
     //makes elevator retract bang-bang loop
     new JoystickButton(m_operatorController, Button.kBumperLeft.value)
-        .whenPressed(() -> m_climb.retractElevatorCAN())
-        //.whenPressed(() -> m_climb.elevatorPower(m_operatorController.getTriggerAxis(Hand.kLeft)))
-        .whenPressed(() -> m_climb.startClimb(m_operatorController.getTriggerAxis(Hand.kRight)))
+        .whenPressed(() -> m_climb.extendElevatorCAN(-0.6))
         .whenReleased(() -> m_climb.stopElevator());
 
     new JoystickButton(m_operatorController, Button.kStart.value)
@@ -319,8 +325,8 @@ public class RobotContainer {
 
     // Run path following command, then stop at the end.
     //return ramseteCommand.andThen(() -> m_robotDrive.stopDriveTrain());
-    return new InstantCommand();
-   
+    //return new DriveWithTime(3, 0.2, 0.2);
+    return new RunCommand(() -> m_robotDrive.tankDrive(-0.4, -0.4), m_robotDrive).withTimeout(3);
    /* // An ExampleCommand will run in autonomous
     //return m_autoCommand;
     return new InstantCommand();

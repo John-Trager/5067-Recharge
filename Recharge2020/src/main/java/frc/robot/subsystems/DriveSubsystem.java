@@ -34,7 +34,7 @@ public class DriveSubsystem extends SubsystemBase {
   WPI_TalonFX rearRightMotor = new WPI_TalonFX(DriveConstants.kRearRightMotorPort);
 
   //differntialDrive for Arcade Drive
-  DifferentialDrive m_drive = new DifferentialDrive(frontLeftMotor, frontRightMotor);
+  public DifferentialDrive m_drive = new DifferentialDrive(frontLeftMotor, frontRightMotor);
   
   //navX object
   private AHRS ahrs = new AHRS(SPI.Port.kMXP);

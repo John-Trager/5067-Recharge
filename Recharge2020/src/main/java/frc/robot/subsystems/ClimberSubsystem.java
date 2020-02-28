@@ -47,9 +47,9 @@ public class ClimberSubsystem extends SubsystemBase {
     // sets soft limit so lift won't over extend (like a rev limiter lol) and enables it
     //TODO: for comp/final version tweak values including the setpoint
     elevatormotorCAN.configForwardSoftLimitThreshold(DriveConstants.kForwardSoftLimit);
-    elevatormotorCAN.configReverseSoftLimitThreshold(DriveConstants.kReverseSoftLimit);
+    //elevatormotorCAN.configReverseSoftLimitThreshold(DriveConstants.kReverseSoftLimit);
     elevatormotorCAN.configForwardSoftLimitEnable(true);
-    elevatormotorCAN.configReverseSoftLimitEnable(true);
+    //elevatormotorCAN.configReverseSoftLimitEnable(true);
     //inverses encoder relative to motor direction
     elevatormotorCAN.setSensorPhase(true);
     /* Config the sensor used for Primary PID and sensor direction */
@@ -110,7 +110,7 @@ public class ClimberSubsystem extends SubsystemBase {
    * runs climber winch at 50%
    */
   public void startClimb(){
-    climbMotor.set(ControlMode.PercentOutput, -0.5);
+    climbMotor.set(ControlMode.PercentOutput, -1);
   }
   /**
    * runs climber winch based on joystick value

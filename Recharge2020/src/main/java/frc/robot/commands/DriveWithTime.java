@@ -46,6 +46,7 @@ public class DriveWithTime extends CommandBase {
 
     // Timer is started and will start counting UP from 0
     timer.start();
+    //m_drive.setSafetyDisabledForAll();
     //addRequirements(DriveSubsystem);
   }
 
@@ -53,12 +54,14 @@ public class DriveWithTime extends CommandBase {
   @Override
   public void execute() {
     m_drive.tankDrive(leftSpeeds,rightSpeeds);
+    m_drive.m_drive.feed();
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
     m_drive.stopDriveTrain();
+    //m_drive.setSafetyEnabledForAll();
   }
 
   // Returns true when the command should end.

@@ -40,6 +40,8 @@ public class BallIntakeSubsystem extends SubsystemBase {
     intakeMotor.configOpenloopRamp(0.5);
     intakeMotor.configVoltageCompSaturation(12);
     intakeMotor.enableVoltageCompensation(true);
+
+    retractIntake();
   }
 
   @Override

@@ -19,7 +19,7 @@ import frc.robot.utils.Limelight;
 
 public class BallIndexSubsystem extends SubsystemBase {
 
-  //private ShooterSubsystem m_shooter = new ShooterSubsystem();
+  private ShooterSubsystem m_shooter = new ShooterSubsystem();
   
   WPI_TalonSRX midIndexMotor = new WPI_TalonSRX(DriveConstants.kMidIndexMotor);
   //WPI_TalonSRX backIndexMotor = new WPI_TalonSRX(DriveConstants.kBackIndexMotor);
@@ -89,7 +89,7 @@ public class BallIndexSubsystem extends SubsystemBase {
    * 
    * Else stop the motors
    */
-  /*
+  
   public void ballsToShooter(){
     if (Limelight.isTarget() && 
         Math.abs(Limelight.getTx()) <= DriveConstants.kTolerance &&
@@ -106,6 +106,6 @@ public class BallIndexSubsystem extends SubsystemBase {
 
     }
   }
-  */
+  
 
 }
