@@ -89,7 +89,7 @@ public class RobotContainer {
         // hand, and turning controlled by the right.
         new RunCommand(() -> m_robotDrive
             .arcadeDrive(m_driverController.getY(GenericHID.Hand.kLeft),
-                         -m_driverController.getX(GenericHID.Hand.kRight)), m_robotDrive));
+                         -0.75*m_driverController.getX(GenericHID.Hand.kRight)), m_robotDrive));
   }
 
   /**
@@ -121,12 +121,17 @@ public class RobotContainer {
   
     //retracts the intake and stops the motor
     new JoystickButton(m_driverController, Button.kY.value)
-      .whenPressed(() -> m_BallIntake.retractIntake())
-      .whenPressed(() -> m_BallIntake.stopIntakeMotor());
+      .whenPressed(() -> m_BallIntake.extendIntake())
+      .whileHeld(() -> m_BallIntake.intakeSetSpeed(0.5))
+      .whenReleased(() -> m_BallIntake.stopIntakeMotor());
 
     new JoystickButton(m_driverController, Button.kB.value)
       .whenPressed(() -> m_shooter.velocityShooter())
       .whenReleased(() -> m_shooter.stopShooterMotors());
+
+    new JoystickButton(m_operatorController, Button.kA.value)
+      .whenPressed(() -> m_BallIntake.retractIntake())
+      .whenPressed(() -> m_BallIntake.stopIntakeMotor());
 
     // Turns LL light on, Rotates to Vison Target, spins up motors based on distance, sends balls to shooter, when released stops motors & turns off limelight
     new JoystickButton(m_driverController, Button.kX.value)
@@ -154,7 +159,7 @@ public class RobotContainer {
     //extends the intake and runs intake motor stops motor when released
     new JoystickButton(m_operatorController, Button.kY.value)
         .whenPressed(() -> m_BallIntake.extendIntake())
-        .whileHeld(() -> m_BallIntake.intakeSetSpeed(0.4))
+        .whileHeld(() -> m_BallIntake.intakeSetSpeed(0.5))
         .whenReleased(() -> m_BallIntake.stopIntakeMotor());
 
     //retracts the intake and stops the motor
@@ -164,19 +169,19 @@ public class RobotContainer {
 
     //TEST running the indexer
     new JoystickButton(m_operatorController, Button.kX.value)
-        .whenPressed(() -> m_Indexer.runMidIndexer(0.65))
+        .whenPressed(() -> m_Indexer.runMidIndexer(0.5))
         .whenPressed(() -> m_Indexer.runBackIndexer(0.5))
         .whenReleased(() -> m_Indexer.stopIndexer());
     
     //TEST running the indexer
     new JoystickButton(m_operatorController, Button.kB.value)
-        .whenPressed(() -> m_Indexer.runMidIndexer(0.65))
+        .whenPressed(() -> m_Indexer.runMidIndexer(0.5))
        //.whenPressed(() -> m_Indexer.runBackIndexer(-0.5))
         .whenReleased(() -> m_Indexer.stopIndexer());
 
     //moves the shooter index down 
     new JoystickButton(m_operatorController, Button.kBack.value)
-        .whenPressed(() -> m_Indexer.runMidIndexer(-0.5))
+        .whenPressed(() -> m_Indexer.runMidIndexer(-0.65))
         .whileHeld(() -> m_Indexer.runBackIndexer(-0.2))
         .whenReleased(() -> m_Indexer.stopIndexer());
 
@@ -326,8 +331,10 @@ public class RobotContainer {
     // Run path following command, then stop at the end.
     //return ramseteCommand.andThen(() -> m_robotDrive.stopDriveTrain());
     //return new DriveWithTime(3, 0.2, 0.2);
-    return new RunCommand(() -> m_robotDrive.tankDrive(-0.4, -0.4), m_robotDrive).withTimeout(3);
-   /* // An ExampleCommand will run in autonomous
+    //return new RunCommand(() -> m_robotDrive.tankDrive(0, 0), m_robotDrive).withTimeout(2.5).andThen(() -> m_Indexer.runMidIndexer(-0.65)).withTimeout(4.5).andThen(() -> m_robotDrive.tankDrive(0.5, 0.3), m_robotDrive).withTimeout(3);
+    return new RunCommand(() -> m_robotDrive.tankDrive(0, 0), m_robotDrive).withTimeout(2.5);//.andThen(() -> m_Indexer.runMidIndexer(-0.65)).withTimeout(4.5);
+    //return new RunCommand(() -> m_robotDrive.tankDrive(0.4, 0.4), m_robotDrive).withTimeout(2.5);
+    /* // An ExampleCommand will run in autonomous
     //return m_autoCommand;
     return new InstantCommand();
     */
