@@ -86,8 +86,8 @@ public class RobotContainer {
         // A split-stick arcade command, with forward/backward controlled by the left
         // hand, and turning controlled by the right.
         new RunCommand(() -> m_robotDrive
-            .arcadeDrive(m_driverController.getY(GenericHID.Hand.kRight),
-                         -m_driverController.getX(GenericHID.Hand.kLeft)), m_robotDrive));
+            .arcadeDrive(m_driverController.getY(GenericHID.Hand.kLeft),
+                         -m_driverController.getX(GenericHID.Hand.kRight)), m_robotDrive));
   }
 
   /**
@@ -101,19 +101,26 @@ public class RobotContainer {
     /**
      * Drive Controls
      * 
-     *  - Right Bumper: Slow Drive
-     *  - TODO: X button: Rotate then shoot balls (just rotates rn)
+     *  Left Bumper: Slow Drive
+     *  TODO: X button: Rotate and shoot
+     *  Right Bumper: BallIntake
+     *  Y -ball intake retract
      */
 
     // Drive at half speed when the right bumper is held
-    new JoystickButton(m_driverController, Button.kBumperRight.value)
+    new JoystickButton(m_driverController, Button.kBumperLeft.value)
       .whenPressed(() -> m_robotDrive.setMaxOutput(0.3))
       .whenReleased(() -> m_robotDrive.setMaxOutput(1));
 
-    new JoystickButton(m_driverController, Button.kBumperLeft.value)
+    new JoystickButton(m_driverController, Button.kBumperRight.value)
       .whenPressed(() -> m_BallIntake.extendIntake())
       .whileHeld(() -> m_BallIntake.intakeSetSpeed(0.4))
       .whenReleased(() -> m_BallIntake.stopIntakeMotor());
+  
+    //retracts the intake and stops the motor
+    new JoystickButton(m_driverController, Button.kY.value)
+      .whenPressed(() -> m_BallIntake.retractIntake())
+      .whenPressed(() -> m_BallIntake.stopIntakeMotor());
 
     // Turns LL light on, Rotates to Vison Target, spins up motors based on distance, sends balls to shooter, when released stops motors & turns off limelight
     new JoystickButton(m_driverController, Button.kX.value)
@@ -171,7 +178,7 @@ public class RobotContainer {
         .whenPressed(() -> m_climb.extendElevatorPID());
 
     //makes elevator retract bang-bang loop
-    new JoystickButton(m_operatorController, Button.kBumperRight.value)
+    new JoystickButton(m_operatorController, Button.kBumperLeft.value)
         .whenPressed(() -> m_climb.retractElevatorCAN())
         .whenPressed(() -> m_climb.startClimb(m_operatorController.getTriggerAxis(Hand.kRight)))
         .whenReleased(() -> m_climb.stopElevator());
