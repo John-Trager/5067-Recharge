@@ -34,6 +34,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.OIConstants;
@@ -109,6 +110,11 @@ public class RobotContainer {
       .whenPressed(() -> m_robotDrive.setMaxOutput(0.3))
       .whenReleased(() -> m_robotDrive.setMaxOutput(1));
 
+    new JoystickButton(m_driverController, Button.kBumperLeft.value)
+      .whenPressed(() -> m_BallIntake.extendIntake())
+      .whileHeld(() -> m_BallIntake.intakeSetSpeed(0.4))
+      .whenReleased(() -> m_BallIntake.stopIntakeMotor());
+
     // Turns LL light on, Rotates to Vison Target, spins up motors based on distance, sends balls to shooter, when released stops motors & turns off limelight
     new JoystickButton(m_driverController, Button.kX.value)
       .whenPressed(() -> Limelight.setLedMode(LightMode.eOn))
@@ -176,17 +182,55 @@ public class RobotContainer {
      *  
      *  - Y button: extend elevator to max set height
      */    
-    //extends the intake and runs intake motor stops motor when released
-    new JoystickButton(m_guitar, swagGuitar.greenButton)
-        .whenPressed(() -> m_BallIntake.extendIntake())
-        .whileHeld(() -> m_BallIntake.intakeSetSpeed(0.4))
-        .whenReleased(() -> m_BallIntake.stopIntakeMotor());
+    
+     //extends the intake and runs intake motor stops motor when released
+    new POVButton(m_guitar, 180)
+      .whenPressed(() -> m_BallIntake.extendIntake())
+      .whileHeld(() -> m_BallIntake.intakeSetSpeed(0.4))
+      .whenReleased(() -> m_BallIntake.stopIntakeMotor());
 
     //retracts the intake and stops the motor
+    new POVButton(m_guitar, 0)
+      .whenPressed(() -> m_BallIntake.retractIntake())
+      .whenPressed(() -> m_BallIntake.stopIntakeMotor());
+
+    //TEST running the indexer
+    new JoystickButton(m_guitar, swagGuitar.plusButton)
+        .whenPressed(() -> m_Indexer.runMidIndexer(0.5))
+        .whenPressed(() -> m_Indexer.runBackIndexer(0.5))
+        .whenReleased(() -> m_Indexer.stopIndexer());
+
+    //TEST running the indexer
+    new JoystickButton(m_guitar, swagGuitar.minusButton)
+        .whenPressed(() -> m_Indexer.runMidIndexer(-0.5))
+        .whenPressed(() -> m_Indexer.runBackIndexer(-0.5))
+        .whenReleased(() -> m_Indexer.stopIndexer());
+
+    //moves the shooter index down 
+    new JoystickButton(m_guitar, swagGuitar.swagBar)
+        .whileHeld(() -> m_Indexer.runBackIndexer(-0.2))
+        .whenReleased(() -> m_Indexer.stopIndexer());
+
+    //Extend elevator PID
     new JoystickButton(m_guitar, swagGuitar.greenButton)
-        .whenPressed(() -> m_BallIntake.retractIntake())
-        .whenPressed(() -> m_BallIntake.stopIntakeMotor());
-       
+        .whenPressed(() -> m_climb.extendElevatorPID());
+
+    //makes elevator retract bang-bang loop
+    new JoystickButton(m_guitar, swagGuitar.redButton)
+        .whenPressed(() -> m_climb.retractElevatorCAN())
+        .whenPressed(() -> m_climb.startClimb(m_guitar.getRawAxis(swagGuitar.yAxis)))
+        .whenReleased(() -> m_climb.stopElevator());
+
+    // Turns LL light on, Rotates to Vison Target, spins up motors based on distance, sends balls to shooter, when released stops motors & turns off limelight
+    new JoystickButton(m_guitar, swagGuitar.blueButton)
+      .whenPressed(() -> Limelight.setLedMode(LightMode.eOn))
+      .whenHeld(new TurnToTarget(m_robotDrive, m_driverController.getY(GenericHID.Hand.kRight)))
+      //.whenPressed(() -> m_shooter.distanceVelocityShooter())
+      //.whileHeld(() -> m_Indexer.ballsToShooter())
+      //.whenReleased(() -> m_shooter.stopShooterMotors())
+      .whenReleased(() -> Limelight.setLedMode(LightMode.eOff));
+      ///.toggleWhenPressed(new TurnToTarget(m_robotDrive, m_driverController.getY(GenericHID.Hand.kRight)));
+          
   }
 
 

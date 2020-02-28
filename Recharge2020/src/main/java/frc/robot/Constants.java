@@ -124,22 +124,22 @@ public final class Constants {
 
     public static final class swagGuitar {
         //frets colored-buttons TODO: map buttons actual IDs
-        public static final int greenButton = 4;
+        public static final int greenButton = 3;
         public static final int redButton = 2;
         public static final int yellowButton = 0;
         public static final int blueButton = 1;
-        public static final int orangeButton = 1;
+        public static final int orangeButton = 6;
         //bar that you can pull down
-        public static final int swagBar = 1;
+        public static final int swagBar = 4;
         //buttom plus buttons
-        public static final int plusButton = 1;
-        public static final int minusButton = 1;
+        public static final int plusButton = 9;
+        public static final int minusButton = 8;
         //strummer is 0 and 180 degrees d-pad
         public static final int strumUp = 0;
         public static final int strumDown = 180;
         //joystick axises
-        public static final int xAxis = 1;
-        public static final int yAxis = 2;
+        public static final int xAxis = 0;
+        public static final int yAxis = 1;
     }    
 
 }
