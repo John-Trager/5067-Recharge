@@ -82,30 +82,5 @@ public class BallIndexSubsystem extends SubsystemBase {
     backIndexMotor.stopMotor();
     midIndexMotor.stopMotor();
   }
-
-  /**
-   * If there is a target, the shooter is wihthin 0.8 degrees of it,
-   * the shooter is up to speed within a threshold, then send the balls to the shooter
-   * 
-   * Else stop the motors
-   */
   
-  public void ballsToShooter(){
-    if (Limelight.isTarget() && 
-        Math.abs(Limelight.getTx()) <= DriveConstants.kTolerance &&
-        Math.abs(m_shooter.topError) <= DriveConstants.shooterThreshold &&
-        Math.abs(m_shooter.bottomError) <= DriveConstants.shooterThreshold){
-
-            midIndexMotor.set(ControlMode.PercentOutput, DriveConstants.kIndexerPower);
-            backIndexMotor.set(ControlMode.PercentOutput, DriveConstants.kIndexerPower);
-
-    } else {
-
-      midIndexMotor.stopMotor();
-      backIndexMotor.stopMotor();
-
-    }
-  }
-  
-
 }

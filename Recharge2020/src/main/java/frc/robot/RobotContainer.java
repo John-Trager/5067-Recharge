@@ -127,7 +127,7 @@ public class RobotContainer {
 
     new JoystickButton(m_driverController, Button.kB.value)
       .whenPressed(() -> Limelight.setLedMode(LightMode.eOn))
-      .whenPressed(() -> m_shooter.velocityShooter())
+      .whenPressed(() -> m_shooter.startShooter(0.7))
       .whenReleased(() -> m_shooter.stopShooterMotors());
 
     new JoystickButton(m_driverController, Button.kA.value)
@@ -164,10 +164,9 @@ public class RobotContainer {
     new JoystickButton(m_driverController, Button.kX.value)
       .whenPressed(() -> Limelight.setLedMode(LightMode.eOn))
       .whenHeld(new TurnToTarget(m_robotDrive, m_driverController.getY(GenericHID.Hand.kRight)))
-      .whenPressed(() -> m_shooter.velocityShooter())
-      .whileHeld(() -> m_Indexer.ballsToShooter())
-      .whenReleased(() -> m_shooter.stopShooterMotors())
-      .whenReleased(() -> Limelight.setLedMode(LightMode.eOff));
+      .whenPressed(() -> m_shooter.startShooter())
+      .whenReleased(() -> m_shooter.stopShooterMotors());
+      //.whenReleased(() -> Limelight.setLedMode(LightMode.eOff));
       //.toggleWhenPressed(new TurnToTarget(m_robotDrive, m_driverController.getY(GenericHID.Hand.kRight)));
 
 
@@ -186,7 +185,7 @@ public class RobotContainer {
     //extends the intake and runs intake motor stops motor when released
     new JoystickButton(m_operatorController, Button.kY.value)
         .whenPressed(() -> m_BallIntake.extendIntake())
-        .whileHeld(() -> m_BallIntake.intakeSetSpeed(0.45))
+        .whileHeld(() -> m_BallIntake.intakeSetSpeed(0.5))
         .whenReleased(() -> m_BallIntake.stopIntakeMotor());
 
     //retracts the intake and stops the motor
