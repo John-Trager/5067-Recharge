@@ -126,12 +126,39 @@ public class RobotContainer {
       .whenReleased(() -> m_BallIntake.stopIntakeMotor());
 
     new JoystickButton(m_driverController, Button.kB.value)
+      .whenPressed(() -> Limelight.setLedMode(LightMode.eOn))
       .whenPressed(() -> m_shooter.velocityShooter())
       .whenReleased(() -> m_shooter.stopShooterMotors());
 
-    new JoystickButton(m_operatorController, Button.kA.value)
+    new JoystickButton(m_driverController, Button.kA.value)
       .whenPressed(() -> m_BallIntake.retractIntake())
       .whenPressed(() -> m_BallIntake.stopIntakeMotor());
+
+    new JoystickButton(m_driverController, Button.kStart.value)
+      .whenPressed(() -> m_Indexer.runMidIndexer(0.65))
+      .whileHeld(() -> m_Indexer.runBackIndexer(0.2))
+      .whenReleased(() -> m_Indexer.stopIndexer());
+
+    new JoystickButton(m_driverController, Button.kBack.value)
+      .whenPressed(() -> m_Indexer.runMidIndexer(-0.65))
+      .whileHeld(() -> m_Indexer.runBackIndexer(-0.2))
+      .whenReleased(() -> m_Indexer.stopIndexer())
+      .whileHeld(() -> m_BallIntake.intakeSetSpeed(-0.5))
+      .whenReleased(() -> m_BallIntake.stopIntakeMotor());
+
+    new POVButton(m_driverController, 0)
+      .whenPressed(() -> m_climb.extendElevatorCAN(0.4))
+      .whenReleased(() -> m_climb.stopElevator());
+
+    new POVButton(m_driverController, 180)
+      .whenPressed(() -> m_climb.extendElevatorCAN(-0.6))
+      .whenReleased(() -> m_climb.stopElevator());
+
+    new POVButton(m_driverController, 90)
+      .whenPressed(() -> m_climb.startClimb())
+      .whenReleased(() -> m_climb.stopClimber());
+
+
 
     // Turns LL light on, Rotates to Vison Target, spins up motors based on distance, sends balls to shooter, when released stops motors & turns off limelight
     new JoystickButton(m_driverController, Button.kX.value)
@@ -159,7 +186,7 @@ public class RobotContainer {
     //extends the intake and runs intake motor stops motor when released
     new JoystickButton(m_operatorController, Button.kY.value)
         .whenPressed(() -> m_BallIntake.extendIntake())
-        .whileHeld(() -> m_BallIntake.intakeSetSpeed(0.5))
+        .whileHeld(() -> m_BallIntake.intakeSetSpeed(0.45))
         .whenReleased(() -> m_BallIntake.stopIntakeMotor());
 
     //retracts the intake and stops the motor
@@ -183,7 +210,9 @@ public class RobotContainer {
     new JoystickButton(m_operatorController, Button.kBack.value)
         .whenPressed(() -> m_Indexer.runMidIndexer(-0.65))
         .whileHeld(() -> m_Indexer.runBackIndexer(-0.2))
-        .whenReleased(() -> m_Indexer.stopIndexer());
+        .whenReleased(() -> m_Indexer.stopIndexer())
+        .whileHeld(() -> m_BallIntake.intakeSetSpeed(-0.5))
+        .whenReleased(() -> m_BallIntake.stopIntakeMotor());
 
     //Extend elevator PID
     /*
@@ -328,7 +357,8 @@ public class RobotContainer {
         m_robotDrive
     );
 
-    return new InstantCommand();
+    return new RunCommand(() -> m_robotDrive.tankDrive(0.4, 0.4), m_robotDrive).withTimeout(2.5);
+    //return new InstantCommand();
 
     // Run path following command, then stop at the end.
     //return ramseteCommand.andThen(() -> m_robotDrive.stopDriveTrain());
