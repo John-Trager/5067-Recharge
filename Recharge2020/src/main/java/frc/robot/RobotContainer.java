@@ -220,12 +220,12 @@ public class RobotContainer {
     */
     
     new JoystickButton(m_operatorController, Button.kBumperRight.value)
-        .whenPressed(() -> m_climb.extendElevatorCAN(0.4))
+        .whenPressed(() -> m_climb.elevatorPower(0.4))
         .whenReleased(() -> m_climb.stopElevator());
     
     //makes elevator retract bang-bang loop
     new JoystickButton(m_operatorController, Button.kBumperLeft.value)
-        .whenPressed(() -> m_climb.extendElevatorCAN(-0.6))
+        .whenPressed(() -> m_climb.elevatorPower(-0.6))
         .whenReleased(() -> m_climb.stopElevator());
 
     new JoystickButton(m_operatorController, Button.kStart.value)

@@ -9,20 +9,17 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
-import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.DriveConstants;
-import frc.robot.utils.Limelight;
 
 public class BallIndexSubsystem extends SubsystemBase {
 
   private ShooterSubsystem m_shooter = new ShooterSubsystem();
   
-  WPI_TalonSRX midIndexMotor = new WPI_TalonSRX(DriveConstants.kMidIndexMotor);
-  //WPI_TalonSRX backIndexMotor = new WPI_TalonSRX(DriveConstants.kBackIndexMotor);
+  WPI_VictorSPX midIndexMotor = new WPI_VictorSPX(DriveConstants.kMidIndexMotor);
+
   WPI_VictorSPX backIndexMotor = new WPI_VictorSPX(DriveConstants.kBackIndexMotor);
 
   // TODO: add ultra sonic sensors
@@ -34,24 +31,24 @@ public class BallIndexSubsystem extends SubsystemBase {
    
     //setup parameters for Index motors
     midIndexMotor.configFactoryDefault();
-    //backIndexMotor.configFactoryDefault();
+    backIndexMotor.configFactoryDefault();
 
     midIndexMotor.configNeutralDeadband(0.01);
-   // backIndexMotor.configNeutralDeadband(0.01);
+   backIndexMotor.configNeutralDeadband(0.01);
 
     midIndexMotor.setNeutralMode(NeutralMode.Brake);
-   // backIndexMotor.setNeutralMode(NeutralMode.Brake);
+    backIndexMotor.setNeutralMode(NeutralMode.Brake);
 
     midIndexMotor.configOpenloopRamp(0);
-   // backIndexMotor.configOpenloopRamp(0);
+    backIndexMotor.configOpenloopRamp(0);
 
     midIndexMotor.configVoltageCompSaturation(12);
-    //backIndexMotor.configVoltageCompSaturation(12);
+    backIndexMotor.configVoltageCompSaturation(12);
 
     midIndexMotor.enableVoltageCompensation(true);
-    //backIndexMotor.enableVoltageCompensation(true);
+    backIndexMotor.enableVoltageCompensation(true);
 
-    midIndexMotor.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, 45, 80, 30));
+    //midIndexMotor.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, 45, 80, 30));
    // backIndexMotor.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, 45, 80, 30));
 
   }

@@ -7,9 +7,10 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
-import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
-
+import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 //import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
@@ -18,7 +19,7 @@ import frc.robot.Constants.DriveConstants;
 
 public class BallIntakeSubsystem extends SubsystemBase {
   
-  private WPI_VictorSPX intakeMotor = new WPI_VictorSPX(DriveConstants.kIntakeMotor);
+  private WPI_TalonSRX intakeMotor = new WPI_TalonSRX(DriveConstants.kIntakeMotor);
   
   private DoubleSolenoid leftPneumatic = new DoubleSolenoid(0, 1);
   private DoubleSolenoid rightPneumatic = new DoubleSolenoid(2, 3);
@@ -40,6 +41,7 @@ public class BallIntakeSubsystem extends SubsystemBase {
     intakeMotor.configOpenloopRamp(0.5);
     intakeMotor.configVoltageCompSaturation(12);
     intakeMotor.enableVoltageCompensation(true);
+    intakeMotor.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, 45, 80, 30));
 
     retractIntake();
   }
@@ -53,7 +55,7 @@ public class BallIntakeSubsystem extends SubsystemBase {
    * runs the intake [-1,1]
    */
   public void intakeSetSpeed(double speed){
-    intakeMotor.set(speed);
+    intakeMotor.set(ControlMode.PercentOutput, speed);
   }
 
    /**
@@ -61,7 +63,7 @@ public class BallIntakeSubsystem extends SubsystemBase {
    * @param joystick 0-1 input power % for intake speed
    */
   public void intakeIn(double joystick){
-    intakeMotor.set(Math.abs(joystick)*(DriveConstants.kIntakeIsReversed ? -1.0 : 1.0));
+    intakeMotor.set(ControlMode.PercentOutput, Math.abs(joystick)*(DriveConstants.kIntakeIsReversed ? -1.0 : 1.0));
   }
 
   /**
@@ -69,7 +71,7 @@ public class BallIntakeSubsystem extends SubsystemBase {
    * @param joystick 0-1 input power % for intake speed
    */
   public void intakeOut(double joystick){
-    intakeMotor.set(Math.abs(joystick)*(DriveConstants.kIntakeIsReversed ? 1.0 : -1.0));
+    intakeMotor.set(ControlMode.PercentOutput, Math.abs(joystick)*(DriveConstants.kIntakeIsReversed ? 1.0 : -1.0));
   }
 
   public void stopIntakeMotor(){

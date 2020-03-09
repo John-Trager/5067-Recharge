@@ -36,19 +36,19 @@ public class ClimberSubsystem extends SubsystemBase {
     elevatormotorCAN.setNeutralMode(NeutralMode.Brake);
     climbMotor.setNeutralMode(NeutralMode.Brake);
     //set and enable voltage compensation
-    //elevatormotorCAN.configVoltageCompSaturation(12);
+    elevatormotorCAN.configVoltageCompSaturation(12);
     climbMotor.configVoltageCompSaturation(12);
-    //elevatormotorCAN.enableVoltageCompensation(true);
+    elevatormotorCAN.enableVoltageCompensation(true);
     climbMotor.enableVoltageCompensation(true);
     //limitcurrent to motors
-    //elevatormotorCAN.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, 45, 80, 30));
+    elevatormotorCAN.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, 45, 80, 30));
     climbMotor.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, 45, 80, 30));
 
     // sets soft limit so lift won't over extend (like a rev limiter lol) and enables it
     //TODO: for comp/final version tweak values including the setpoint
-    elevatormotorCAN.configForwardSoftLimitThreshold(DriveConstants.kForwardSoftLimit);
+    //elevatormotorCAN.configForwardSoftLimitThreshold(DriveConstants.kForwardSoftLimit);
     //elevatormotorCAN.configReverseSoftLimitThreshold(DriveConstants.kReverseSoftLimit);
-    elevatormotorCAN.configForwardSoftLimitEnable(true);
+    //elevatormotorCAN.configForwardSoftLimitEnable(true);
     //elevatormotorCAN.configReverseSoftLimitEnable(true);
     //inverses encoder relative to motor direction
     elevatormotorCAN.setSensorPhase(true);

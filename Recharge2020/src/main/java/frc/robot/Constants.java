@@ -32,10 +32,10 @@ public final class Constants {
         //Climb Elevator CAN ID
         public static final int kElevatorCAN = 7;
         // Indexer CAN input
-        public static final int kMidIndexMotor = 8;
+        public static final int kMidIndexMotor = 10;
         public static final int kBackIndexMotor = 9;
         //ball intake CAN ID
-         public static final int kIntakeMotor = 10;
+         public static final int kIntakeMotor = 8;
         // Climb CAN input
         public static final int kClimbMotor = 11;
         //reverse motor booleans
