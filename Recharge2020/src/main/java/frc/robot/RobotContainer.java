@@ -58,7 +58,7 @@ public class RobotContainer {
     new JoystickButton(m_operatorController, Button.kB.value)
       .whenPressed(() -> m_shooter.velocityShooter())
       .whenPressed(() -> m_indexer.runMidIndexer(0.3))
-      .whenPressed(() -> m_indexer.runBackIndexer(-0.3))
+      .whenPressed(() -> m_indexer.runBackIndexer(0.3))
       .whenReleased(() -> m_indexer.stopIndexer())
       .whenReleased(() -> m_shooter.stopShooterMotors());
     
