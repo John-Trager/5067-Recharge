@@ -26,7 +26,6 @@ import frc.robot.subsystems.BallIntakeSubsystem;
 import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
-//import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.utils.Limelight;
 import frc.robot.utils.Limelight.LightMode;
 import frc.robot.commands.DriveWithTime;
@@ -125,10 +124,12 @@ public class RobotContainer {
       .whileHeld(() -> m_BallIntake.intakeSetSpeed(0.5))
       .whenReleased(() -> m_BallIntake.stopIntakeMotor());
 
+    /*
     new JoystickButton(m_driverController, Button.kB.value)
       .whenPressed(() -> Limelight.setLedMode(LightMode.eOn))
       .whenPressed(() -> m_shooter.startShooter(0.7))
       .whenReleased(() -> m_shooter.stopShooterMotors());
+      */
 
     new JoystickButton(m_driverController, Button.kA.value)
       .whenPressed(() -> m_BallIntake.retractIntake())
@@ -161,6 +162,7 @@ public class RobotContainer {
 
 
     // Turns LL light on, Rotates to Vison Target, spins up motors based on distance, sends balls to shooter, when released stops motors & turns off limelight
+    /*
     new JoystickButton(m_driverController, Button.kX.value)
       .whenPressed(() -> Limelight.setLedMode(LightMode.eOn))
       .whenHeld(new TurnToTarget(m_robotDrive, m_driverController.getY(GenericHID.Hand.kRight)))
@@ -168,6 +170,11 @@ public class RobotContainer {
       .whenReleased(() -> m_shooter.stopShooterMotors());
       //.whenReleased(() -> Limelight.setLedMode(LightMode.eOff));
       //.toggleWhenPressed(new TurnToTarget(m_robotDrive, m_driverController.getY(GenericHID.Hand.kRight)));
+      */
+    //TODO: for testing
+      new JoystickButton(m_operatorController, Button.kB.value)
+      .whenPressed(() -> m_shooter.velocityShooter())
+      .whenReleased(() -> m_shooter.stopShooterMotors());
 
 
     //turns the shooter on
