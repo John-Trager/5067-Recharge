@@ -15,7 +15,6 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.DriveConstants;
 
 public class BallIndexerSubsystem extends SubsystemBase {
-  private ShooterSubsystem m_shooter = new ShooterSubsystem();
   
   WPI_VictorSPX midIndexMotor = new WPI_VictorSPX(DriveConstants.kMidIndexMotor);
 
