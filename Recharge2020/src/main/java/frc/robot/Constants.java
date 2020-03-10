@@ -38,8 +38,8 @@ public final class Constants {
         public static final int kElevatorPWM = 1;
         // Indexer PWM input
         public static final int kIndexRoller = 2;
-        public static final int kMidIndexMotor = 3;
-        public static final int kBackIndexMotor = 4;
+        public static final int kMidIndexMotor = 10;
+        public static final int kBackIndexMotor = 9;
         //ball intake PWM
         public static final int kIntakeMotor = 5;
         //reverse motor booleans

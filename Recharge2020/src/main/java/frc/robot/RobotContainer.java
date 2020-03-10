@@ -10,6 +10,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Button;
+import frc.robot.subsystems.BallIndexerSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -25,6 +26,7 @@ import frc.robot.Constants.OIConstants;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private ShooterSubsystem m_shooter = new ShooterSubsystem();
+  private BallIndexerSubsystem m_indexer = new BallIndexerSubsystem();
 
   //private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
 
@@ -55,6 +57,9 @@ public class RobotContainer {
 
     new JoystickButton(m_operatorController, Button.kB.value)
       .whenPressed(() -> m_shooter.velocityShooter())
+      .whenPressed(() -> m_indexer.runMidIndexer(0.3))
+      .whenPressed(() -> m_indexer.runBackIndexer(-0.3))
+      .whenReleased(() -> m_indexer.stopIndexer())
       .whenReleased(() -> m_shooter.stopShooterMotors());
     
     
