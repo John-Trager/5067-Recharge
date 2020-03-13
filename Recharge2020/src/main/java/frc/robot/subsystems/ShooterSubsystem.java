@@ -53,7 +53,7 @@ public class ShooterSubsystem extends SubsystemBase {
     mPIDControllerTop = topShooter.getPIDController();
     mPIDControllerBottom = bottomShooter.getPIDController();
     kP = 0.00007; 
-    kI = 0.000000265; //to 5600rpm in 1sec; to 4000rpm 3secs -- .0000003 works well for 4000rpm
+    kI = 0.00000029; //.000000265 to 5600rpm in 1sec; to 4000rpm 3secs -- .0000003 works well for 4000rpm
     kD = 0.000001; 
     kIz = 0; 
     kFF = 0.00008; // ~3000 rpm

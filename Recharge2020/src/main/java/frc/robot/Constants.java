@@ -61,9 +61,9 @@ public final class Constants {
         public static final boolean leftEncoderisReversed = true;
 
          //target position for elevator
-         public static double kSetPositionClimb = 22000;
+         public static double kSetPositionClimb = 23000;
          //soft limit in raw units for climb elevtor
-         public static final int kForwardSoftLimit = 23000;
+         public static final int kForwardSoftLimit = 23200;
          public static final int kReverseSoftLimit = 0;
          //for deviding encoder values into useful units
          public static final double kEncoderRevolutions = 1;

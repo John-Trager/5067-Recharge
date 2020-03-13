@@ -32,6 +32,12 @@ public class ClimberSubsystem extends SubsystemBase {
     /* Factory Default all hardware to prevent unexpected behaviour */
     climbMotor.configFactoryDefault();
     elevatormotorCAN.configFactoryDefault();
+    //Encoder is 1024 count per revolution
+    elevatormotorCAN.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative);
+    //reset encoder position
+    elevatormotorCAN.setSelectedSensorPosition(0);
+    //inverses encoder relative to motor direction
+    elevatormotorCAN.setSensorPhase(false);
     //set brake mode
     elevatormotorCAN.setNeutralMode(NeutralMode.Brake);
     climbMotor.setNeutralMode(NeutralMode.Brake);
@@ -46,17 +52,11 @@ public class ClimberSubsystem extends SubsystemBase {
 
     // sets soft limit so lift won't over extend (like a rev limiter lol) and enables it
     //TODO: for comp/final version tweak values including the setpoint
-    //elevatormotorCAN.configForwardSoftLimitThreshold(DriveConstants.kForwardSoftLimit);
-    //elevatormotorCAN.configReverseSoftLimitThreshold(DriveConstants.kReverseSoftLimit);
-    //elevatormotorCAN.configForwardSoftLimitEnable(true);
-    //elevatormotorCAN.configReverseSoftLimitEnable(true);
-    //inverses encoder relative to motor direction
-    elevatormotorCAN.setSensorPhase(true);
+    elevatormotorCAN.configForwardSoftLimitThreshold(DriveConstants.kForwardSoftLimit);
+    elevatormotorCAN.configReverseSoftLimitThreshold(DriveConstants.kReverseSoftLimit);
+    elevatormotorCAN.configForwardSoftLimitEnable(true);
+    elevatormotorCAN.configReverseSoftLimitEnable(true);
     /* Config the sensor used for Primary PID and sensor direction */
-    //Encoder is 1024 count per revolution
-    elevatormotorCAN.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative,0,30);
-    //reset encoder position
-    elevatormotorCAN.setSelectedSensorPosition(0);
     //config peak outputs
     elevatormotorCAN.configNominalOutputForward(0);
     elevatormotorCAN.configNominalOutputReverse(0);
